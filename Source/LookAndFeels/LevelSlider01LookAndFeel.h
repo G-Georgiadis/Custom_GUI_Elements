@@ -143,7 +143,7 @@ public:
 		);
 
 		sliderCap.addRoundedRectangle(
-			width / 2.f - sliderCapWidth / 2.f,
+			x + width / 2.f - sliderCapWidth / 2.f,
 			sliderPos - sliderCapWidth,
 			sliderCapWidth,
 			sliderCapWidth * 2,
@@ -154,7 +154,7 @@ public:
 
 		/** SliderCap center line */
 		juce::Rectangle<float> sliderCapCenterLine(
-			width / 2.f - sliderCapWidth / 2.f,
+			x + width / 2.f - sliderCapWidth / 2.f,
 			sliderPos - sliderCapWidth * 2 /48.f,
 			sliderCapWidth,
 			sliderCapWidth * 2 / 24.f);

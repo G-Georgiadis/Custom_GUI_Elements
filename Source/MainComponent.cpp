@@ -5,7 +5,7 @@ MainComponent::MainComponent()
 {
     addAndMakeVisible(slider01);
     slider01.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
-    slider01.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
+    //slider01.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
 
     slider01.setLookAndFeel(&levelSlider01LookAndFeel);
 
