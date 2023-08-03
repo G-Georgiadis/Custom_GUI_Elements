@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="gQXrgq" name="Custom_GUI_Elements" projectType="guiapp" useAppConfig="0"
+              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
+  <MAINGROUP id="Grt9t8" name="Custom_GUI_Elements">
+    <GROUP id="{7D00498F-0CC5-FC7F-82B6-99E6802ECCDB}" name="Source">
+      <GROUP id="{A22A6052-5C36-1D78-D788-9F21BDDD03FE}" name="LookAndFeels">
+        <FILE id="PR7qU3" name="LevelSlider01LookAndFeel.h" compile="0" resource="0"
+              file="Source/LookAndFeels/LevelSlider01LookAndFeel.h"/>
+      </GROUP>
+      <FILE id="xQZ9PB" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+      <FILE id="ILTgbG" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
+      <FILE id="vCRWnc" name="MainComponent.cpp" compile="1" resource="0"
+            file="Source/MainComponent.cpp"/>
+    </GROUP>
+  </MAINGROUP>
+  <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1"/>
+  <EXPORTFORMATS>
+    <VS2022 targetFolder="Builds/VisualStudio2022">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="Custom_GUI_Elements"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="Custom_GUI_Elements"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_audio_basics" path="C:/Users/G/source/repos/JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="C:/Users/G/source/repos/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="C:/Users/G/source/repos/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="C:/Users/G/source/repos/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="C:/Users/G/source/repos/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="C:/Users/G/source/repos/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="C:/Users/G/source/repos/JUCE/modules"/>
+      </MODULEPATHS>
+    </VS2022>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+  </MODULES>
+</JUCERPROJECT>
