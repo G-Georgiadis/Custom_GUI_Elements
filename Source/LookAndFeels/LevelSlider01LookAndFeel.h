@@ -41,7 +41,8 @@ public:
 			drawLinearSliderTrack(g, x, y, width, height, sliderStyle, slider);
 
 			/** Slider cap (thumb) */
-			// ToDo: Draw horizontal slider cap
+			drawLinearSliderThumb(g, x, y, width, height, sliderPos, minSliderPos,
+				maxSliderPos, sliderStyle, slider);
 		}
 		// Vertical slider
 		else
@@ -131,23 +132,30 @@ public:
 			trackStartY = sliderAreaCenterY - trackHeight / 2.f;	// Slider area start Y + center - half the heigght of the track
 			trackEndY = trackStartY + trackHeight;
 
-			g.setColour(juce::Colours::grey);
+			/** Colour gradients */
+			juce::Colour sliderTrackSides = juce::Colours::darkgrey.darker(0.7f);
+			juce::Colour sliderTrackCenter = juce::Colours::black;
+			juce::ColourGradient horizontalSliderTrackGradient = juce::ColourGradient::vertical(sliderTrackSides, trackStartY + trackHeight/ 4, sliderTrackSides, trackEndY - trackHeight / 4);
+			horizontalSliderTrackGradient.addColour(0.5, sliderTrackCenter);
+
+			g.setGradientFill(horizontalSliderTrackGradient);
+			//g.setColour(juce::Colours::grey);
 			/** Draw the slider track */
 			g.fillRoundedRectangle(trackStartX, trackStartY, trackWidth, trackHeight, cornerSize);
 
-#ifdef _DEBUG
-			/** Max line */
-			juce::Path topLine;
-			topLine.addRectangle(trackStartX, y, 1, height);
-			g.setColour(juce::Colours::grey);
-			g.fillPath(topLine);
-
-			/** Min line */
-			juce::Path bottomLine;
-			bottomLine.addRectangle(trackStartX + trackWidth, y, 1, height);
-			g.setColour(juce::Colours::grey);
-			g.fillPath(bottomLine);
-#endif
+//#ifdef _DEBUG
+//			/** Max line */
+//			juce::Path topLine;
+//			topLine.addRectangle(trackStartX, y, 1, height);
+//			g.setColour(juce::Colours::grey);
+//			g.fillPath(topLine);
+//
+//			/** Min line */
+//			juce::Path bottomLine;
+//			bottomLine.addRectangle(trackStartX + trackWidth, y, 1, height);
+//			g.setColour(juce::Colours::grey);
+//			g.fillPath(bottomLine);
+//#endif
 		}
 	}
 
@@ -162,7 +170,7 @@ public:
 		{	//Draw the slider cap vertically
 			const float sliderCapHeightToTotalHeightRatio = 0.1f;
 			const float sliderCapHeight = height * sliderCapHeightToTotalHeightRatio;
-			const float sliderCapWidth = sliderCapHeight / 2.f;
+			const float sliderCapWidth = trackWidth * 2;
 
 			sliderPos = juce::jmap<float>(
 				sliderPos,
@@ -188,20 +196,12 @@ public:
 				5);
 			g.setColour(sliderCapCenterLineColour);
 			g.fillRect(sliderCapCenterLine);
-			
-			/*juce::Rectangle<float> sliderCapCenterLine(
-				x + width / 2.f - sliderCapWidth / 2.f,
-				sliderPos - sliderCapWidth * 2 / 48.f,
-				sliderCapWidth,
-				sliderCapWidth * 2 / 24.f);
-			g.setColour(sliderCapCenterLineColour);
-			g.fillRect(sliderCapCenterLine);*/
 		}
 		else if (sliderStyle == juce::Slider::SliderStyle::LinearHorizontal)
 		{	//Draw the slider cap horizontally
 			const float sliderCapWidthToTotalWidthRatio = 0.1f;
-			const float sliderCapWidth = width * sliderCapWidthToTotalWidthRatio;
-			const float sliderCapHeight = sliderCapWidth / 2.f;
+			const float sliderCapHeight = trackHeight * 2;
+			const float sliderCapWidth = trackWidth * sliderCapWidthToTotalWidthRatio;
 
 			sliderPos = juce::jmap<float>(
 				sliderPos,
@@ -212,15 +212,22 @@ public:
 			);
 
 			sliderCap.addRoundedRectangle(
-				sliderPos - sliderCapWidth / 2.f,	// StartX 
-				outlinedRectangle.getCentreY() - sliderCapHeight / 2.f,	// StartY
+				sliderPos - sliderCapWidth / 2.f,
+				outlinedRectangle.getCentreY() - sliderCapHeight / 2.f,
 				sliderCapWidth,
 				sliderCapHeight,
 				cornerSize);
 			g.setColour(juce::Colours::darkgrey);
 			g.fillPath(sliderCap);
-		}
 
+			juce::Rectangle<float> sliderCapCenterLine(
+				sliderPos - 2,
+				y + height / 2.f - sliderCapHeight / 2.f,
+				5,
+				sliderCapHeight);
+			g.setColour(sliderCapCenterLineColour);
+			g.fillRect(sliderCapCenterLine);
+			}
 	}
 
 
@@ -255,7 +262,7 @@ public:
 		sliderTextBoxPtr->setColour(juce::Label::backgroundWhenEditingColourId, juce::Colours::black);
 		sliderTextBoxPtr->setColour(juce::Label::outlineWhenEditingColourId, juce::Colours::beige);
 
-		
+		// ToDo: Fix text box justification when editing the value
 
 		return sliderTextBoxPtr;
 	} 
