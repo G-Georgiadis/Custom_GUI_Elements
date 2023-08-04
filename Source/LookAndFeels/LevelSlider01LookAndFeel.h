@@ -35,26 +35,12 @@ public:
 		// Horizontal slider
 		if (width > height)
 		{	
-			slider.setSliderStyle(juce::Slider::SliderStyle::LinearHorizontal);
-
-			/** Slider track */
-			drawLinearSliderTrack(g, x, y, width, height, sliderStyle, slider);
-
-			/** Slider cap (thumb) */
-			drawLinearSliderThumb(g, x, y, width, height, sliderPos, minSliderPos,
-				maxSliderPos, sliderStyle, slider);
+			drawSliderElements(g, x, y, width, height, sliderPos, minSliderPos, maxSliderPos, sliderStyle, slider);
 		}
 		// Vertical slider
 		else
-		{	// This is a vertical slider
-			slider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
-
-			/** Slider track */
-			drawLinearSliderTrack(g, x, y, width, height, sliderStyle, slider);
-
-			/** Slider cap (thumb) */
-			drawLinearSliderThumb(g, x, y, width, height, sliderPos, minSliderPos,
-				maxSliderPos, sliderStyle, slider);	
+		{
+			drawSliderElements(g, x, y, width, height, sliderPos, minSliderPos, maxSliderPos, sliderStyle, slider);
 		}		
 	}
 
@@ -62,7 +48,7 @@ public:
 	/** Draws the background of sliders */
 	void drawLinearSliderBackground(juce::Graphics& g, int x, int y, int width, int height,
 		float sliderPos, float minSliderPos, float maxSliderPos,
-		const juce::Slider::SliderStyle style, juce::Slider& slider) override
+		const juce::Slider::SliderStyle sliderStyle, juce::Slider& slider) override
 	{
 		g.setColour(backgroundColour);
 		g.fillRect(x, y, width, height);
@@ -87,12 +73,15 @@ public:
 		/** The vertical center of the slider area (not including the taxt box if any) */
 		const float sliderAreaCenterY = outlinedRectangle.getCentreY();
 
+		const float sliderTrackCenterX = outlinedRectangle.getWidth() / 3.f;
+		const float sliderTrackCenterY = outlinedRectangle.getHeight() / 3.f;
+
 		if (sliderStyle == juce::Slider::SliderStyle::LinearVertical)
 		{	//Draw the slider track vertically
 			/** Slider track */
 			trackWidth = width * 0.125f;	// 1/8 of slider area width
 			trackHeight = height * 0.8f;	// 4/5 of slider are height
-			trackStartX = sliderAreaCenterX - trackWidth / 2.f;		// Slider area start x + center - half the width of the track
+			trackStartX = sliderTrackCenterX - trackWidth / 2.f;		// Slider area start x + center - half the width of the track
 			trackEndX = trackStartX + trackWidth;
 			trackStartY = sliderAreaCenterY - trackHeight / 2.f;	// Slider area start Y + center - half the heigght of the track
 			trackEndY = trackStartY + trackHeight;
@@ -103,24 +92,10 @@ public:
 			juce::ColourGradient vetricalSliderTrackGradient = juce::ColourGradient::horizontal(sliderTrackSides, trackStartX + trackWidth / 4, sliderTrackSides, trackEndX - trackWidth / 4);
 			vetricalSliderTrackGradient.addColour(0.5, sliderTrackCenter);
 
-			//g.setColour(juce::Colours::grey);
+			/** Fill slider track with gradient */
 			g.setGradientFill(vetricalSliderTrackGradient);
 			/** Draw the slider track */
 			g.fillRoundedRectangle(trackStartX, trackStartY, trackWidth, trackHeight, cornerSize);
-
-//#ifdef _DEBUG
-//			/** Max line */
-//			juce::Path topLine;
-//			topLine.addRectangle(x, trackStartY, width, 1);
-//			g.setColour(juce::Colours::grey);
-//			g.fillPath(topLine);
-//
-//			/** Min line */
-//			juce::Path bottomLine;
-//			bottomLine.addRectangle(x, trackEndY, width, 1);
-//			g.setColour(juce::Colours::grey);
-//			g.fillPath(bottomLine);
-//#endif
 		}
 		else if (sliderStyle == juce::Slider::SliderStyle::LinearHorizontal)
 		{	//Draw the slider track horizontally
@@ -129,33 +104,20 @@ public:
 			trackHeight = height * 0.125;	// 1/8 of slider are height
 			trackStartX = sliderAreaCenterX - trackWidth / 2.f;		// Slider area start x + center - half the width of the track
 			trackEndX = trackStartX + trackWidth;
-			trackStartY = sliderAreaCenterY - trackHeight / 2.f;	// Slider area start Y + center - half the heigght of the track
+			trackStartY = sliderTrackCenterY - trackHeight / 2.f;	// Slider area start Y + center - half the heigght of the track
 			trackEndY = trackStartY + trackHeight;
 
 			/** Colour gradients */
 			juce::Colour sliderTrackSides = juce::Colours::darkgrey.darker(0.7f);
 			juce::Colour sliderTrackCenter = juce::Colours::black;
-			juce::ColourGradient horizontalSliderTrackGradient = juce::ColourGradient::vertical(sliderTrackSides, trackStartY + trackHeight/ 4, sliderTrackSides, trackEndY - trackHeight / 4);
+			juce::ColourGradient horizontalSliderTrackGradient = juce::ColourGradient::vertical(sliderTrackSides, trackStartY + trackHeight / 4, sliderTrackSides, trackEndY - trackHeight / 4);
 			horizontalSliderTrackGradient.addColour(0.5, sliderTrackCenter);
 
+			/** Fill slider track with gradient */
 			g.setGradientFill(horizontalSliderTrackGradient);
-			//g.setColour(juce::Colours::grey);
+			
 			/** Draw the slider track */
 			g.fillRoundedRectangle(trackStartX, trackStartY, trackWidth, trackHeight, cornerSize);
-
-//#ifdef _DEBUG
-//			/** Max line */
-//			juce::Path topLine;
-//			topLine.addRectangle(trackStartX, y, 1, height);
-//			g.setColour(juce::Colours::grey);
-//			g.fillPath(topLine);
-//
-//			/** Min line */
-//			juce::Path bottomLine;
-//			bottomLine.addRectangle(trackStartX + trackWidth, y, 1, height);
-//			g.setColour(juce::Colours::grey);
-//			g.fillPath(bottomLine);
-//#endif
 		}
 	}
 
@@ -181,7 +143,7 @@ public:
 			);
 
 			sliderCap.addRoundedRectangle(
-				outlinedRectangle.getCentreX() - sliderCapWidth / 2.f,	// StartX = Center - slider cap width / 2
+				width / 3.f - sliderCapWidth / 2.f,	// StartX
 				sliderPos - sliderCapHeight / 2.f,
 				sliderCapWidth,
 				sliderCapHeight,
@@ -190,7 +152,7 @@ public:
 			g.fillPath(sliderCap);
 
 			juce::Rectangle<float> sliderCapCenterLine(
-				x + width / 2.f - sliderCapWidth / 2.f,
+				width / 3.f - sliderCapWidth / 2.f,
 				sliderPos - 2,
 				sliderCapWidth,
 				5);
@@ -213,7 +175,7 @@ public:
 
 			sliderCap.addRoundedRectangle(
 				sliderPos - sliderCapWidth / 2.f,
-				outlinedRectangle.getCentreY() - sliderCapHeight / 2.f,
+				height / 3.f - sliderCapHeight / 2.f,
 				sliderCapWidth,
 				sliderCapHeight,
 				cornerSize);
@@ -222,7 +184,7 @@ public:
 
 			juce::Rectangle<float> sliderCapCenterLine(
 				sliderPos - 2,
-				y + height / 2.f - sliderCapHeight / 2.f,
+				height / 3.f - sliderCapHeight / 2.f,
 				5,
 				sliderCapHeight);
 			g.setColour(sliderCapCenterLineColour);
@@ -230,14 +192,24 @@ public:
 			}
 	}
 
+	/** Sets the slider style and calls the methods that draw the elements of the slider */
+	void drawSliderElements(juce::Graphics& g, int x, int y, int width, int height,
+		float sliderPos, float minSliderPos, float maxSliderPos,
+		const juce::Slider::SliderStyle sliderStyle, juce::Slider& slider)
+	{
+		slider.setSliderStyle(juce::Slider::SliderStyle::LinearHorizontal);
 
-	juce::Slider::SliderLayout getSliderLayout(juce::Slider& slider) override
+		/** Slider track */
+		drawLinearSliderTrack(g, x, y, width, height, sliderStyle, slider);
+
+		/** Slider cap (thumb) */
+		drawLinearSliderThumb(g, x, y, width, height, sliderPos, minSliderPos,
+			maxSliderPos, sliderStyle, slider);
+	}
+
+	juce::Slider::SliderLayout getSliderLayout(juce::Slider& slider) override 
 	{
 		juce::Rectangle localBounds = slider.getLocalBounds();
-
-		
-		/*juce::Rectangle<int> sliderBounds = localBounds.removeFromTop(localBounds.getHeight() * 11 / 12);
-		juce::Rectangle<int> textBoxBounds = localBounds;*/
 
 		juce::Slider::SliderLayout layout;
 
