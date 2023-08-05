@@ -1,7 +1,7 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "LookAndFeels/LevelSlider01LookAndFeel.h"
+#include "LookAndFeels/Slider_MixingConsoleStyle_LookAndFeel.h"
 
 //==============================================================================
 /*
@@ -20,8 +20,9 @@ public:
     void resized() override;
 
 private:
-    juce::Slider slider01;
-    LevelSlider01LookAndFeel levelSlider01LookAndFeel;
+    juce::Slider slider01Vertical;
+    juce::Slider slider01Horizontal;
+    Slider_MixingConsoleStyle_LookAndFeel slider_MixingConsoleStyle_LookAndFeel;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };

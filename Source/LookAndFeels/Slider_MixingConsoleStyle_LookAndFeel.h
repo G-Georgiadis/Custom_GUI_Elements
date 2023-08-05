@@ -15,7 +15,7 @@
  * A linear slider for use on level controls.
  * The orientation is set automatically based on the width/height given.
  */
-class LevelSlider01LookAndFeel : public juce::LookAndFeel_V4
+class Slider_MixingConsoleStyle_LookAndFeel : public juce::LookAndFeel_V4
 {
 public:
 	void drawLinearSlider(juce::Graphics& g, int x, int y, int width,
@@ -33,17 +33,6 @@ public:
 
 		/** Draw the rest of the slider elements that are orientation-specific */
 		drawSliderElements(g, x, y, width, height, sliderPos, minSliderPos, maxSliderPos, sliderStyle, slider);
-		///** Figure out which orientation to use based on given width and height and draw the slider accordingly */
-		//// Horizontal slider
-		//if (width > height)
-		//{	
-		//	drawSliderElements(g, x, y, width, height, sliderPos, minSliderPos, maxSliderPos, sliderStyle, slider);
-		//}
-		//// Vertical slider
-		//else
-		//{
-		//	drawSliderElements(g, x, y, width, height, sliderPos, minSliderPos, maxSliderPos, sliderStyle, slider);
-		//}		
 	}
 
 
@@ -62,7 +51,6 @@ public:
 	{
 		g.setColour(outlineColour);
 		outlinedRectangle = juce::Rectangle(x, y, width, height);
-		//outlinedRectangle.toFloat().reduce(border, border);
 		g.drawRoundedRectangle(outlinedRectangle.toFloat(), outlineCornerSize, lineThickness);
 	}
 
@@ -209,6 +197,7 @@ public:
 			/** The smaller grading lines */
 			float smallLineSize = width / 10.f;
 			float smallLineDistance = (trackEndY - trackStartY) / 8.f;
+			int gradingNumber = 10;
 
 			for (int i = 0; i <= 8; i++)
 			{
@@ -219,7 +208,19 @@ public:
 
 				grading.addLineSegment(line, 1);
 				
-			}			
+				g.setColour(juce::Colours::beige.darker(0.5));
+				g.setFont(juce::Font(10));
+
+				g.drawText(juce::String(gradingNumber),
+					longLineX - 2 * smallLineSize - 15,
+					trackStartY + i * smallLineDistance - 15,
+					30.f,
+					30.f,
+					juce::Justification::centred,
+					true
+				);
+				gradingNumber -= 10;
+			}
 		}
 		else if (sliderStyle == juce::Slider::SliderStyle::LinearHorizontal)
 		{
@@ -230,17 +231,30 @@ public:
 
 			/** The smaller grading lines */
 			float smallLineSize = height / 10.f;
-			float smallLineDistance = (trackStartX - trackEndX) / 8.f;
+			float smallLineDistance = (trackEndX - trackStartX) / 8.f;
+			int gradingNumber = 10;
 
 			for (int i = 0; i <= 8; i++)
 			{
-				juce::Point start = juce::Point(trackEndX + i * smallLineDistance, longLineY);
-				juce::Point end = juce::Point(trackEndX + i * smallLineDistance, longLineY - smallLineSize);
+				juce::Point start = juce::Point(trackEndX - i * smallLineDistance, longLineY);
+				juce::Point end = juce::Point(trackEndX  - i * smallLineDistance, longLineY - smallLineSize);
 				
 				juce::Line line = juce::Line(start, end);
-
 				grading.addLineSegment(line, 1);
 
+
+				g.setColour(juce::Colours::beige.darker(0.5));
+				g.setFont(juce::Font(10));
+
+				g.drawText(juce::String(gradingNumber),
+					trackEndX - (i * smallLineDistance) - 15,
+					longLineY - 2 * smallLineSize - 15,
+					30.f,
+					30.f,
+					juce::Justification::centred,
+					true
+				);
+				gradingNumber -= 10;
 			}
 		}
 
@@ -275,14 +289,28 @@ public:
 
 	juce::Slider::SliderLayout getSliderLayout(juce::Slider& slider) override 
 	{
-		juce::Rectangle localBounds = slider.getLocalBounds();
+		if (slider.getSliderStyle() == juce::Slider::SliderStyle::LinearVertical)
+		{
+			juce::Rectangle localBounds = slider.getLocalBounds();
 
-		juce::Slider::SliderLayout layout;
+			juce::Slider::SliderLayout layout;
 
-		layout.sliderBounds = localBounds.removeFromTop(localBounds.getHeight() * 11 / 12);
-		layout.textBoxBounds = localBounds;
+			layout.sliderBounds = localBounds.removeFromTop(localBounds.getHeight() * 11 / 12);
+			layout.textBoxBounds = localBounds;
 
-		return layout;
+			return layout;
+		}
+		else if (slider.getSliderStyle() == juce::Slider::SliderStyle::LinearHorizontal)
+		{
+			juce::Rectangle localBounds = slider.getLocalBounds();
+
+			juce::Slider::SliderLayout layout;
+
+			layout.sliderBounds = localBounds.removeFromTop(localBounds.getHeight() * 9 / 12);
+			layout.textBoxBounds = localBounds;
+
+			return layout;
+		}
 	}
 
 

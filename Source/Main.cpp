@@ -59,7 +59,7 @@ public:
     {
     public:
         MainWindow (juce::String name)
-            : DocumentWindow (name, juce::Colours::black,
+            : DocumentWindow (name, juce::Colours::black.brighter(0.1),
                               DocumentWindow::closeButton)
         {
             setUsingNativeTitleBar (false);
