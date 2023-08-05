@@ -31,17 +31,19 @@ public:
 		/** Outline. */
 		drawLinearSliderOutline(g, x, y, width, height, sliderStyle, slider);
 
-		/** Figure out which orientation to use based on given width and height and draw the slider accordingly */
-		// Horizontal slider
-		if (width > height)
-		{	
-			drawSliderElements(g, x, y, width, height, sliderPos, minSliderPos, maxSliderPos, sliderStyle, slider);
-		}
-		// Vertical slider
-		else
-		{
-			drawSliderElements(g, x, y, width, height, sliderPos, minSliderPos, maxSliderPos, sliderStyle, slider);
-		}		
+		/** Draw the rest of the slider elements that are orientation-specific */
+		drawSliderElements(g, x, y, width, height, sliderPos, minSliderPos, maxSliderPos, sliderStyle, slider);
+		///** Figure out which orientation to use based on given width and height and draw the slider accordingly */
+		//// Horizontal slider
+		//if (width > height)
+		//{	
+		//	drawSliderElements(g, x, y, width, height, sliderPos, minSliderPos, maxSliderPos, sliderStyle, slider);
+		//}
+		//// Vertical slider
+		//else
+		//{
+		//	drawSliderElements(g, x, y, width, height, sliderPos, minSliderPos, maxSliderPos, sliderStyle, slider);
+		//}		
 	}
 
 
@@ -61,7 +63,7 @@ public:
 		g.setColour(outlineColour);
 		outlinedRectangle = juce::Rectangle(x, y, width, height);
 		//outlinedRectangle.toFloat().reduce(border, border);
-		g.drawRoundedRectangle(outlinedRectangle.toFloat(), cornerSize, lineThickness);
+		g.drawRoundedRectangle(outlinedRectangle.toFloat(), outlineCornerSize, lineThickness);
 	}
 
 	/** Draws the track of the slider */
@@ -95,7 +97,7 @@ public:
 			/** Fill slider track with gradient */
 			g.setGradientFill(vetricalSliderTrackGradient);
 			/** Draw the slider track */
-			g.fillRoundedRectangle(trackStartX, trackStartY, trackWidth, trackHeight, cornerSize);
+			g.fillRoundedRectangle(trackStartX, trackStartY, trackWidth, trackHeight, outlineCornerSize);
 		}
 		else if (sliderStyle == juce::Slider::SliderStyle::LinearHorizontal)
 		{	//Draw the slider track horizontally
@@ -117,7 +119,7 @@ public:
 			g.setGradientFill(horizontalSliderTrackGradient);
 			
 			/** Draw the slider track */
-			g.fillRoundedRectangle(trackStartX, trackStartY, trackWidth, trackHeight, cornerSize);
+			g.fillRoundedRectangle(trackStartX, trackStartY, trackWidth, trackHeight, outlineCornerSize);
 		}
 	}
 
@@ -126,6 +128,7 @@ public:
 		float sliderPos, float minSliderPos, float maxSliderPos,
 		const juce::Slider::SliderStyle sliderStyle,juce::Slider& slider) override
 	{
+		const float sliderCapCornerSize = 5;
 		/** SliderCap */
 		juce::Path sliderCap;
 		if (sliderStyle == juce::Slider::SliderStyle::LinearVertical)
@@ -147,7 +150,7 @@ public:
 				sliderPos - sliderCapHeight / 2.f,
 				sliderCapWidth,
 				sliderCapHeight,
-				cornerSize);
+				sliderCapCornerSize);
 			g.setColour(juce::Colours::darkgrey);
 			g.fillPath(sliderCap);
 
@@ -178,7 +181,7 @@ public:
 				height / 3.f - sliderCapHeight / 2.f,
 				sliderCapWidth,
 				sliderCapHeight,
-				cornerSize);
+				sliderCapCornerSize);
 			g.setColour(juce::Colours::darkgrey);
 			g.fillPath(sliderCap);
 
@@ -192,12 +195,73 @@ public:
 			}
 	}
 
+	void drawLinearSliderGrading(juce::Graphics& g, int x, int y, int width, int height, const juce::Slider::SliderStyle sliderStyle)
+	{
+		juce::Path grading;
+
+		if (sliderStyle == juce::Slider::SliderStyle::LinearVertical)
+		{
+			/** The long line that runs paraller to the slider track */
+			float longLineX = width * 5.f / 6.f;
+			juce::Line longLine = juce::Line(longLineX, trackStartY, longLineX, trackEndY);
+			grading.addLineSegment(longLine, 1);
+
+			/** The smaller grading lines */
+			float smallLineSize = width / 10.f;
+			float smallLineDistance = (trackEndY - trackStartY) / 8.f;
+
+			for (int i = 0; i <= 8; i++)
+			{
+				juce::Point start = juce::Point(longLineX - smallLineSize, trackStartY + i * smallLineDistance);
+				juce::Point end = juce::Point(longLineX, trackStartY + i * smallLineDistance);
+
+				juce::Line line = juce::Line(start, end);
+
+				grading.addLineSegment(line, 1);
+				
+			}			
+		}
+		else if (sliderStyle == juce::Slider::SliderStyle::LinearHorizontal)
+		{
+			/** The long line that runs paraller to the slider track */
+			float longLineY = height * 5.f / 6.f;
+			juce::Line longLine = juce::Line(trackStartX, longLineY, trackEndX, longLineY);
+			grading.addLineSegment(longLine, 1);
+
+			/** The smaller grading lines */
+			float smallLineSize = height / 10.f;
+			float smallLineDistance = (trackStartX - trackEndX) / 8.f;
+
+			for (int i = 0; i <= 8; i++)
+			{
+				juce::Point start = juce::Point(trackEndX + i * smallLineDistance, longLineY);
+				juce::Point end = juce::Point(trackEndX + i * smallLineDistance, longLineY - smallLineSize);
+				
+				juce::Line line = juce::Line(start, end);
+
+				grading.addLineSegment(line, 1);
+
+			}
+		}
+
+		g.setColour(juce::Colours::beige.darker(0.5));
+		g.fillPath(grading);
+	}
+
 	/** Sets the slider style and calls the methods that draw the elements of the slider */
 	void drawSliderElements(juce::Graphics& g, int x, int y, int width, int height,
 		float sliderPos, float minSliderPos, float maxSliderPos,
 		const juce::Slider::SliderStyle sliderStyle, juce::Slider& slider)
 	{
-		slider.setSliderStyle(juce::Slider::SliderStyle::LinearHorizontal);
+		if (width > height)
+		{
+			slider.setSliderStyle(juce::Slider::SliderStyle::LinearHorizontal);
+		}
+		else
+		{
+			slider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
+		}
+		
 
 		/** Slider track */
 		drawLinearSliderTrack(g, x, y, width, height, sliderStyle, slider);
@@ -205,6 +269,8 @@ public:
 		/** Slider cap (thumb) */
 		drawLinearSliderThumb(g, x, y, width, height, sliderPos, minSliderPos,
 			maxSliderPos, sliderStyle, slider);
+
+		drawLinearSliderGrading(g, x, y, width, height, sliderStyle);
 	}
 
 	juce::Slider::SliderLayout getSliderLayout(juce::Slider& slider) override 
@@ -260,7 +326,7 @@ private:
 
 	/** Generic */
 	const float border = 2;
-	const float cornerSize = 5;
+	const float outlineCornerSize = 10;
 	const float lineThickness = 1.f;
 	static const int numberOfDecimalPlaces = 2;
 };
