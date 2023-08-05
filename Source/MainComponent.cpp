@@ -3,6 +3,8 @@
 //==============================================================================
 MainComponent::MainComponent()
 {
+    addAndMakeVisible(elementSelectorComboBox);
+
     addAndMakeVisible(slider01Vertical);
     addAndMakeVisible(slider01Horizontal);
 
@@ -29,6 +31,12 @@ void MainComponent::paint (juce::Graphics& g)
 
 void MainComponent::resized()
 {
-    slider01Vertical.setBounds(0, 0, 100, getLocalBounds().getHeight());
-    slider01Horizontal.setBounds(120, getLocalBounds().getHeight() - 130, getLocalBounds().getWidth() - 120, 130);
+    juce::Rectangle localBounds = getLocalBounds();
+    elementSelectorComboBox.setBounds(localBounds.removeFromTop(30));
+    localBounds.removeFromTop(10);
+
+    slider01Vertical.setBounds(localBounds.removeFromLeft(100));
+    localBounds.removeFromLeft(10);
+
+    slider01Horizontal.setBounds(localBounds.removeFromBottom(140));
 }

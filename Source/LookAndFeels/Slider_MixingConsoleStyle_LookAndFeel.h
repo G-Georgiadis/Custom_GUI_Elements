@@ -18,6 +18,32 @@
 class Slider_MixingConsoleStyle_LookAndFeel : public juce::LookAndFeel_V4
 {
 public:
+	juce::Slider::SliderLayout getSliderLayout(juce::Slider& slider) override
+	{
+		if (slider.getSliderStyle() == juce::Slider::SliderStyle::LinearVertical)
+		{
+			juce::Rectangle localBounds = slider.getLocalBounds();
+
+			juce::Slider::SliderLayout layout;
+
+			layout.sliderBounds = localBounds.removeFromTop(localBounds.getHeight() * 11 / 12);
+			layout.textBoxBounds = localBounds;
+
+			return layout;
+		}
+		else if (slider.getSliderStyle() == juce::Slider::SliderStyle::LinearHorizontal)
+		{
+			juce::Rectangle localBounds = slider.getLocalBounds();
+
+			juce::Slider::SliderLayout layout;
+
+			layout.sliderBounds = localBounds.removeFromTop(localBounds.getHeight() * 9 / 12);
+			layout.textBoxBounds = localBounds;
+
+			return layout;
+		}
+	}
+
 	void drawLinearSlider(juce::Graphics& g, int x, int y, int width,
 		int height, float sliderPos, float minSliderPos, float maxSliderPos,
 		const juce::Slider::SliderStyle sliderStyle, juce::Slider& slider) override
@@ -105,7 +131,7 @@ public:
 
 			/** Fill slider track with gradient */
 			g.setGradientFill(horizontalSliderTrackGradient);
-			
+
 			/** Draw the slider track */
 			g.fillRoundedRectangle(trackStartX, trackStartY, trackWidth, trackHeight, outlineCornerSize);
 		}
@@ -114,7 +140,7 @@ public:
 	/** Draws the slider thumb (slider cap) */
 	void drawLinearSliderThumb(juce::Graphics& g, int x, int y, int width, int height,
 		float sliderPos, float minSliderPos, float maxSliderPos,
-		const juce::Slider::SliderStyle sliderStyle,juce::Slider& slider) override
+		const juce::Slider::SliderStyle sliderStyle, juce::Slider& slider) override
 	{
 		const float sliderCapCornerSize = 5;
 		/** SliderCap */
@@ -139,7 +165,7 @@ public:
 				sliderCapWidth,
 				sliderCapHeight,
 				sliderCapCornerSize);
-			g.setColour(juce::Colours::darkgrey);
+			g.setColour(sliderCapColour);
 			g.fillPath(sliderCap);
 
 			juce::Rectangle<float> sliderCapCenterLine(
@@ -170,7 +196,7 @@ public:
 				sliderCapWidth,
 				sliderCapHeight,
 				sliderCapCornerSize);
-			g.setColour(juce::Colours::darkgrey);
+			g.setColour(sliderCapColour);
 			g.fillPath(sliderCap);
 
 			juce::Rectangle<float> sliderCapCenterLine(
@@ -180,7 +206,7 @@ public:
 				sliderCapHeight);
 			g.setColour(sliderCapCenterLineColour);
 			g.fillRect(sliderCapCenterLine);
-			}
+		}
 	}
 
 	void drawLinearSliderGrading(juce::Graphics& g, int x, int y, int width, int height, const juce::Slider::SliderStyle sliderStyle)
@@ -207,7 +233,7 @@ public:
 				juce::Line line = juce::Line(start, end);
 
 				grading.addLineSegment(line, 1);
-				
+
 				g.setColour(juce::Colours::beige.darker(0.5));
 				g.setFont(juce::Font(10));
 
@@ -237,8 +263,8 @@ public:
 			for (int i = 0; i <= 8; i++)
 			{
 				juce::Point start = juce::Point(trackEndX - i * smallLineDistance, longLineY);
-				juce::Point end = juce::Point(trackEndX  - i * smallLineDistance, longLineY - smallLineSize);
-				
+				juce::Point end = juce::Point(trackEndX - i * smallLineDistance, longLineY - smallLineSize);
+
 				juce::Line line = juce::Line(start, end);
 				grading.addLineSegment(line, 1);
 
@@ -287,33 +313,8 @@ public:
 		drawLinearSliderGrading(g, x, y, width, height, sliderStyle);
 	}
 
-	juce::Slider::SliderLayout getSliderLayout(juce::Slider& slider) override 
-	{
-		if (slider.getSliderStyle() == juce::Slider::SliderStyle::LinearVertical)
-		{
-			juce::Rectangle localBounds = slider.getLocalBounds();
-
-			juce::Slider::SliderLayout layout;
-
-			layout.sliderBounds = localBounds.removeFromTop(localBounds.getHeight() * 11 / 12);
-			layout.textBoxBounds = localBounds;
-
-			return layout;
-		}
-		else if (slider.getSliderStyle() == juce::Slider::SliderStyle::LinearHorizontal)
-		{
-			juce::Rectangle localBounds = slider.getLocalBounds();
-
-			juce::Slider::SliderLayout layout;
-
-			layout.sliderBounds = localBounds.removeFromTop(localBounds.getHeight() * 9 / 12);
-			layout.textBoxBounds = localBounds;
-
-			return layout;
-		}
-	}
-
-
+	/** Slider text box */
+#pragma region Slider text box
 	juce::Label* createSliderTextBox(juce::Slider& slider) override
 	{
 		/** Slider text box number of decimal places to display */
@@ -331,15 +332,66 @@ public:
 		// ToDo: Fix text box justification when editing the value
 
 		return sliderTextBoxPtr;
-	} 
+	}
+
+#pragma endregion
+
+	/** Colour getters and setters */
+#pragma region Colour getters and setters
+	/** Background colour */
+	void setBackgroundColour(juce::Colour newColour)
+	{
+		backgroundColour = newColour;
+	}
+
+	juce::Colour getBackgroundColour()
+	{
+		return backgroundColour;
+	}
+
+	/** Outline colour */
+	void setOutlineColour(juce::Colour newColour)
+	{
+		outlineColour = newColour;
+	}
+
+	juce::Colour getOutlineColour()
+	{
+		return outlineColour;
+	}
+
+	/** Slider cap colour */
+	void setSliderCapColour(juce::Colour newColour)
+	{
+		sliderCapColour = newColour;
+	}
+
+	juce::Colour getSliderCapColour()
+	{
+		return sliderCapColour;
+	}
+
+	/** Slider cap line colour */
+	void setSliderCapLineColour(juce::Colour newColour)
+	{
+		sliderCapCenterLineColour = newColour;
+	}
+
+	juce::Colour getSliderCapLineColour()
+	{
+		return sliderCapCenterLineColour;
+	}
+
+#pragma endregion
+
 
 private:
 	/** Colours */
-	const juce::Colour backgroundColour = juce::Colours::transparentWhite;
-	const juce::Colour outlineColour = juce::Colours::beige;
-	const juce::Colour sliderCapCenterLineColour = juce::Colours::black;	
-
-	
+	juce::Colour backgroundColour = juce::Colours::transparentWhite;
+	juce::Colour outlineColour = juce::Colours::beige;
+	juce::Colour sliderCapColour = juce::Colours::darkgrey;
+	juce::Colour sliderCapCenterLineColour = juce::Colours::black;	
+		
 
 	/** Outline */
 	juce::Rectangle<int> outlinedRectangle;

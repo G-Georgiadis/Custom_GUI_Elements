@@ -20,6 +20,8 @@ public:
     void resized() override;
 
 private:
+    juce::ComboBox elementSelectorComboBox;
+
     juce::Slider slider01Vertical;
     juce::Slider slider01Horizontal;
     Slider_MixingConsoleStyle_LookAndFeel slider_MixingConsoleStyle_LookAndFeel;
