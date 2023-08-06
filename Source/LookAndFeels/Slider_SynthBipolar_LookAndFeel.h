@@ -130,38 +130,72 @@ public:
 		}
 	}
 
+	/** Draws the slider cap (thumb) */
 	void drawLinearSliderThumb(juce::Graphics& g, int x, int y, int width, int height,
 		float sliderPos, float minSliderPos, float maxSliderPos,
 		const juce::Slider::SliderStyle sliderStyle, juce::Slider& slider) override
 	{
+		int sliderCapWidth;
+		int sliderCapHeight;
+		int sliderCapStartX;
+		int sliderCapStartY;
 		if (sliderStyle == juce::Slider::SliderStyle::LinearVertical)
 		{
-			int sliderCapWidth = 2.f * trackWidth;
-			int sliderCapHeight = 0.3f * sliderCapWidth;
-
+			/** Slider cap position scalling */
 			sliderPos = juce::jmap(sliderPos, (float)y, (float)height, trackStartY, trackEndY);
-			
-			int sliderCapStartX = trackStartX - sliderCapWidth * 0.25;
-			int sliderCapStartY = sliderPos - sliderCapHeight / 2.f;
 
-			g.setColour(sliderCapColour);
-			g.fillRoundedRectangle(sliderCapStartX, sliderCapStartY, sliderCapWidth, sliderCapHeight, 5);
+			/** Slider cap dimensions */
+			sliderCapWidth = 2.f * trackWidth;
+			sliderCapHeight = 0.8f * sliderCapWidth;
+			sliderCapStartX = trackStartX - sliderCapWidth * 0.25;
+			sliderCapStartY = sliderPos - sliderCapHeight / 2.f;
+			
 		}
 		else if (sliderStyle == juce::Slider::SliderStyle::LinearHorizontal)
 		{
-			int sliderCapHeight = 2.f * trackHeight;
-			int sliderCapWidth = 0.3f * sliderCapHeight;
-			
-			
+			/** Slider cap position scalling */
 			sliderPos = juce::jmap(sliderPos, (float)x, (float)width, trackStartX, trackEndX);
 
-			int sliderCapStartX = sliderPos - sliderCapWidth / 2.f;
-			int sliderCapStartY = trackStartY - sliderCapHeight * 0.25;
-
-			g.setColour(sliderCapColour);
-			g.fillRoundedRectangle(sliderCapStartX, sliderCapStartY, sliderCapWidth, sliderCapHeight, 5);
+			/** Slider cap dimensions */
+			sliderCapHeight = 2.f * trackHeight;
+			sliderCapWidth = 0.8f * sliderCapHeight;
+			sliderCapStartX = sliderPos - sliderCapWidth / 2.f;
+			sliderCapStartY = trackStartY - sliderCapHeight * 0.25;
 		}
+		/** Slider cap path */
+		drawSliderCapPath(g, sliderCapStartX, sliderCapStartY, sliderCapWidth,
+			sliderCapHeight, sliderStyle);
 	}
+
+	void drawSliderCapPath(juce::Graphics& g, int sliderCapStartX, int sliderCapStartY,
+		int sliderCapWidth, int sliderCapHeight, juce::Slider::SliderStyle sliderStyle)
+	{
+		juce::Path sliderCapShape;
+		const int sliderCapCornerSize = 2;
+		if (sliderStyle == juce::Slider::SliderStyle::LinearVertical)
+		{
+			sliderCapShape.startNewSubPath(sliderCapStartX, sliderCapStartY);	//Top left corner
+			sliderCapShape.lineTo(sliderCapStartX, sliderCapStartY + sliderCapHeight);	//Bottom left corner
+			sliderCapShape.lineTo(sliderCapStartX + sliderCapWidth * 0.666f, sliderCapStartY + sliderCapHeight);	//Bottom right corner
+			sliderCapShape.lineTo(sliderCapStartX + sliderCapWidth, sliderCapStartY + sliderCapHeight / 2.f);	//Middle right pointer (points to value)
+			sliderCapShape.lineTo(sliderCapStartX + sliderCapWidth * 0.666f, sliderCapStartY);	//Top right corner
+			sliderCapShape.closeSubPath();
+		}
+		else if (sliderStyle == juce::Slider::SliderStyle::LinearHorizontal)
+		{
+			sliderCapShape.startNewSubPath(sliderCapStartX, sliderCapStartY);	//Top left corner
+			sliderCapShape.lineTo(sliderCapStartX, sliderCapStartY + sliderCapHeight * 0.666f);	//Middle left corner
+			sliderCapShape.lineTo(sliderCapStartX + sliderCapWidth / 2.f, sliderCapStartY + sliderCapHeight);	//Bottom center pointer (points to value)
+			sliderCapShape.lineTo(sliderCapStartX + sliderCapWidth, sliderCapStartY + sliderCapHeight * 0.666f);	//Middle right corner
+			sliderCapShape.lineTo(sliderCapStartX + sliderCapWidth, sliderCapStartY);	//Top right corner
+			sliderCapShape.closeSubPath();
+		}
+		sliderCapShape = sliderCapShape.createPathWithRoundedCorners(sliderCapCornerSize);
+
+		g.setColour(sliderCapColour);
+		g.fillPath(sliderCapShape);
+	}
+
 private:
 	/** Colours */
 	juce::Colour backgroundColour = juce::Colours::transparentWhite;

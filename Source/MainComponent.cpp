@@ -64,7 +64,7 @@ void MainComponent::resized()
     slider01Horizontal.setBounds(horizontalSliderBounds);
 
     slider02Vertical.setBounds(0, elementSelectorComboBox.getHeight() + 10, 40, 200);
-    slider02Horizontal.setBounds(60, getLocalBounds().getHeight() - 50, 200, 40);
+    slider02Horizontal.setBounds(60, getLocalBounds().getHeight() - 150, 300, 60);
 }
 
 void MainComponent::comboBoxChanged(juce::ComboBox* comboBoxThatHasChanged)
