@@ -46,9 +46,7 @@ public:
 	{
 		/** Slider orientation */
 		setSliderOrientation(width, height, slider);
-		/** Slider value range */
-		slider.setRange(juce::Range<double>(-1, 1), 0.01);
-
+		
 		/** Background. */
 		drawLinearSliderBackground(g, x, y, width, height, sliderPos, minSliderPos, maxSliderPos, sliderStyle, slider);
 
@@ -60,6 +58,9 @@ public:
 
 		/** Slider cap (thumb) */
 		drawLinearSliderThumb(g, x, y, width, height, sliderPos, minSliderPos, maxSliderPos, sliderStyle, slider);
+
+		/** Grading lines */
+		drawGradingLines(g, x, y, width, height, sliderStyle);
 	}
 
 	/** Draws the background of sliders */
@@ -93,8 +94,8 @@ public:
 			/** Slider track */
 			trackWidth = width * 0.2f;
 			trackHeight = height * 0.8f;
-			trackStartX = width / 2.f - trackWidth / 2.f;
-			trackEndX = width / 2.f + trackWidth / 2.f;
+			trackStartX = width / 3.f - trackWidth / 2.f;
+			trackEndX = width / 3.f + trackWidth / 2.f;
 			trackStartY = height / 2.f - trackHeight / 2.f;
 			trackEndY = height / 2.f + trackHeight / 2.f;
 
@@ -110,7 +111,7 @@ public:
 		else if (sliderStyle == juce::Slider::LinearHorizontal)
 		{
 			const float centerX = width / 2.f;
-			const float centerY = height / 2.f;
+			const float centerY = height / 3.f;
 
 			trackWidth = width * 0.8f;
 			trackHeight = height * 0.2f;
@@ -167,6 +168,7 @@ public:
 			sliderCapHeight, sliderStyle);
 	}
 
+	/** Draws the path (shape) of the slider cap */
 	void drawSliderCapPath(juce::Graphics& g, int sliderCapStartX, int sliderCapStartY,
 		int sliderCapWidth, int sliderCapHeight, juce::Slider::SliderStyle sliderStyle)
 	{
@@ -194,6 +196,42 @@ public:
 
 		g.setColour(sliderCapColour);
 		g.fillPath(sliderCapShape);
+	}
+
+	/** Draws the grading lines */
+	void drawGradingLines(juce::Graphics& g, int x, int y, int width, int height, juce::Slider::SliderStyle sliderStyle)
+	{
+		g.setColour(outlineColour);
+		if (sliderStyle == juce::Slider::SliderStyle::LinearVertical)
+		{
+			/** Long line */
+			g.drawLine(width * 0.75f, trackStartY, width * 0.75f, trackEndY);
+
+			/** Shorter lines */
+			for (int i = 0; i < 5; i++)
+			{
+				g.drawLine(width * 0.75f, trackStartY + i * trackHeight / 4, width * 0.55f, trackStartY + i * trackHeight / 4);
+			}
+			for (int i = 0; i < 21; i++)
+			{
+				g.drawLine(width * 0.75f, trackStartY + i * trackHeight / 20, width * 0.6f, trackStartY + i * trackHeight / 20);
+			}
+		}
+		else if (sliderStyle == juce::Slider::SliderStyle::LinearHorizontal)
+		{
+			/** Long line */
+			g.drawLine(trackStartX, height * 0.75f, trackEndX, height * 0.75f);
+
+			/** Shorter lines */
+			for (int i = 0; i < 5; i++)
+			{
+				g.drawLine(trackStartX + i * trackWidth / 4, height * 0.75f, trackStartX + i * trackWidth / 4, height *  0.55f);
+			}
+			for (int i = 0; i < 21; i++)
+			{
+				g.drawLine(trackStartX + i * trackWidth / 20, height * 0.75f, trackStartX + i * trackWidth / 20, height * 0.6f);
+			}
+		}
 	}
 
 private:

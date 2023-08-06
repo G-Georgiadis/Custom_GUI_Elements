@@ -35,6 +35,10 @@ MainComponent::MainComponent()
     slider02Vertical.setLookAndFeel(&slider_SynthBipolar_LookAndFeel);
     slider02Horizontal.setLookAndFeel(&slider_SynthBipolar_LookAndFeel);
 
+    
+    slider02Vertical.setRange(-1, 1, 0.01);
+    slider02Horizontal.setRange(-1, 1, 0.01);
+
     setSize (600, 400);
 }
 
@@ -62,6 +66,7 @@ void MainComponent::resized()
 
     slider01Vertical.setBounds(verticalSliderBounds);
     slider01Horizontal.setBounds(horizontalSliderBounds);
+
 
     slider02Vertical.setBounds(0, elementSelectorComboBox.getHeight() + 10, 40, 200);
     slider02Horizontal.setBounds(60, getLocalBounds().getHeight() - 150, 300, 60);
