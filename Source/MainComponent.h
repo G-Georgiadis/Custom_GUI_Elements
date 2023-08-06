@@ -8,7 +8,7 @@
     This component lives inside our window, and this is where you should put all
     your controls and content.
 */
-class MainComponent  : public juce::Component
+class MainComponent  : public juce::Component, juce::ComboBox::Listener
 {
 public:
     //==============================================================================
@@ -26,5 +26,9 @@ private:
     juce::Slider slider01Horizontal;
     Slider_MixingConsoleStyle_LookAndFeel slider_MixingConsoleStyle_LookAndFeel;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
+    // Inherited via Listener
+    virtual void comboBoxChanged(juce::ComboBox* comboBoxThatHasChanged) override;
+
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)        
 };
