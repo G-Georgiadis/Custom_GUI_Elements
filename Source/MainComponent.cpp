@@ -8,7 +8,7 @@ MainComponent::MainComponent()
     elementSelectorComboBox.addItem(juce::String("Mixing console style slider"), 1001);
     elementSelectorComboBox.setColour(juce::ComboBox::ColourIds::backgroundColourId, slider_MixingConsoleStyle_LookAndFeel.getBackgroundColour());
     elementSelectorComboBox.setColour(juce::ComboBox::ColourIds::outlineColourId, slider_MixingConsoleStyle_LookAndFeel.getOutlineColour());
-    elementSelectorComboBox.setSelectedItemIndex(0, juce::NotificationType::sendNotificationAsync);
+    
     elementSelectorComboBox.addListener(this);
 
     addChildComponent(slider01Vertical);
@@ -32,7 +32,7 @@ MainComponent::~MainComponent()
 //==============================================================================
 void MainComponent::paint (juce::Graphics& g)
 {
-    //g.fillAll (juce::Colours::black);
+    
 }
 
 void MainComponent::resized()
