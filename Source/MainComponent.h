@@ -2,6 +2,7 @@
 
 #include <JuceHeader.h>
 #include "LookAndFeels/Slider_MixingConsoleStyle_LookAndFeel.h"
+#include "LookAndFeels/Slider_SynthBipolar_LookAndFeel.h"
 
 //==============================================================================
 /*
@@ -22,9 +23,15 @@ public:
 private:
     juce::ComboBox elementSelectorComboBox;
 
+    Slider_MixingConsoleStyle_LookAndFeel slider_MixingConsoleStyle_LookAndFeel;
     juce::Slider slider01Vertical;
     juce::Slider slider01Horizontal;
-    Slider_MixingConsoleStyle_LookAndFeel slider_MixingConsoleStyle_LookAndFeel;
+    
+    Slider_SynthBipolar_LookAndFeel slider_SynthBipolar_LookAndFeel;
+    juce::Slider slider02Vertical;
+    juce::Slider slider02Horizontal;
+
+    void makeAllControlsInvisible();
 
     // Inherited via Listener
     virtual void comboBoxChanged(juce::ComboBox* comboBoxThatHasChanged) override;

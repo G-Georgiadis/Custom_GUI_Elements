@@ -63,6 +63,24 @@ public:
 		drawSliderElements(g, x, y, width, height, sliderPos, minSliderPos, maxSliderPos, sliderStyle, slider);
 	}
 
+	/** Draws the background of sliders */
+	void drawLinearSliderBackground(juce::Graphics& g, int x, int y, int width, int height,
+		float sliderPos, float minSliderPos, float maxSliderPos,
+		const juce::Slider::SliderStyle sliderStyle, juce::Slider& slider) override
+	{
+		g.setColour(backgroundColour);
+		g.fillRect(x, y, width, height);
+	}
+
+	/** Draws the outline */
+	void drawLinearSliderOutline(juce::Graphics& g, int	x, int y, int width, int height,
+		const juce::Slider::SliderStyle sliderStyle, juce::Slider& slider) override
+	{
+		g.setColour(outlineColour);
+		outlinedRectangle = juce::Rectangle(x, y, width, height);
+		g.drawRoundedRectangle(outlinedRectangle.toFloat(), outlineCornerSize, lineThickness);
+	}
+
 #pragma region Orientation depended draw methods
 	/** Sets the slider style and calls the methods that draw the elements of the slider */
 	void drawSliderElements(juce::Graphics& g, int x, int y, int width, int height,
@@ -87,25 +105,6 @@ public:
 			maxSliderPos, sliderStyle, slider);
 
 		drawLinearSliderGrading(g, x, y, width, height, sliderStyle);
-	}
-
-
-	/** Draws the background of sliders */
-	void drawLinearSliderBackground(juce::Graphics& g, int x, int y, int width, int height,
-		float sliderPos, float minSliderPos, float maxSliderPos,
-		const juce::Slider::SliderStyle sliderStyle, juce::Slider& slider) override
-	{
-		g.setColour(backgroundColour);
-		g.fillRect(x, y, width, height);
-	}
-
-	/** Draws the outline */
-	void drawLinearSliderOutline(juce::Graphics& g, int	x, int y, int width, int height,
-		const juce::Slider::SliderStyle sliderStyle, juce::Slider& slider)
-	{
-		g.setColour(outlineColour);
-		outlinedRectangle = juce::Rectangle(x, y, width, height);
-		g.drawRoundedRectangle(outlinedRectangle.toFloat(), outlineCornerSize, lineThickness);
 	}
 
 	/** Draws the track of the slider */

@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="gQXrgq" name="Custom_GUI_Elements" projectType="guiapp" useAppConfig="0"
-              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
+              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
+              cppLanguageStandard="20">
   <MAINGROUP id="Grt9t8" name="Custom_GUI_Elements">
     <GROUP id="{7D00498F-0CC5-FC7F-82B6-99E6802ECCDB}" name="Source">
       <GROUP id="{A22A6052-5C36-1D78-D788-9F21BDDD03FE}" name="LookAndFeels">
         <FILE id="PR7qU3" name="Slider_MixingConsoleStyle_LookAndFeel.h" compile="0"
               resource="0" file="Source/LookAndFeels/Slider_MixingConsoleStyle_LookAndFeel.h"/>
+        <FILE id="DsjOK8" name="Slider_SynthBipolar_LookAndFeel.h" compile="0"
+              resource="0" file="Source/LookAndFeels/Slider_SynthBipolar_LookAndFeel.h"/>
       </GROUP>
       <FILE id="xQZ9PB" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
       <FILE id="ILTgbG" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
