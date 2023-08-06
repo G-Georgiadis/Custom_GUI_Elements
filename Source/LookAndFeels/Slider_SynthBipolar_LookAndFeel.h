@@ -44,10 +44,10 @@ public:
 		int height, float sliderPos, float minSliderPos, float maxSliderPos,
 		const juce::Slider::SliderStyle sliderStyle, juce::Slider& slider) override
 	{
+		/** Slider orientation */
 		setSliderOrientation(width, height, slider);
-
 		/** Slider value range */
-		slider.setRange(juce::Range<double>(0, 1), 0.01);
+		slider.setRange(juce::Range<double>(-1, 1), 0.01);
 
 		/** Background. */
 		drawLinearSliderBackground(g, x, y, width, height, sliderPos, minSliderPos, maxSliderPos, sliderStyle, slider);
@@ -58,6 +58,8 @@ public:
 		/** Slider track */
 		drawSliderTrack(g, x, y, width, height, sliderStyle, slider);
 
+		/** Slider cap (thumb) */
+		drawLinearSliderThumb(g, x, y, width, height, sliderPos, minSliderPos, maxSliderPos, sliderStyle, slider);
 	}
 
 	/** Draws the background of sliders */
@@ -113,7 +115,7 @@ public:
 			trackWidth = width * 0.8f;
 			trackHeight = height * 0.2f;
 			trackStartX = centerX - trackWidth / 2.f;
-			trackEndX = centerX - trackWidth / 2.f;
+			trackEndX = centerX + trackWidth / 2.f;
 			trackStartY = centerY - trackHeight / 2.f;
 			trackEndY = centerY + trackHeight / 2.f;
 
@@ -128,6 +130,38 @@ public:
 		}
 	}
 
+	void drawLinearSliderThumb(juce::Graphics& g, int x, int y, int width, int height,
+		float sliderPos, float minSliderPos, float maxSliderPos,
+		const juce::Slider::SliderStyle sliderStyle, juce::Slider& slider) override
+	{
+		if (sliderStyle == juce::Slider::SliderStyle::LinearVertical)
+		{
+			int sliderCapWidth = 2.f * trackWidth;
+			int sliderCapHeight = 0.3f * sliderCapWidth;
+
+			sliderPos = juce::jmap(sliderPos, (float)y, (float)height, trackStartY, trackEndY);
+			
+			int sliderCapStartX = trackStartX - sliderCapWidth * 0.25;
+			int sliderCapStartY = sliderPos - sliderCapHeight / 2.f;
+
+			g.setColour(sliderCapColour);
+			g.fillRoundedRectangle(sliderCapStartX, sliderCapStartY, sliderCapWidth, sliderCapHeight, 5);
+		}
+		else if (sliderStyle == juce::Slider::SliderStyle::LinearHorizontal)
+		{
+			int sliderCapHeight = 2.f * trackHeight;
+			int sliderCapWidth = 0.3f * sliderCapHeight;
+			
+			
+			sliderPos = juce::jmap(sliderPos, (float)x, (float)width, trackStartX, trackEndX);
+
+			int sliderCapStartX = sliderPos - sliderCapWidth / 2.f;
+			int sliderCapStartY = trackStartY - sliderCapHeight * 0.25;
+
+			g.setColour(sliderCapColour);
+			g.fillRoundedRectangle(sliderCapStartX, sliderCapStartY, sliderCapWidth, sliderCapHeight, 5);
+		}
+	}
 private:
 	/** Colours */
 	juce::Colour backgroundColour = juce::Colours::transparentWhite;
