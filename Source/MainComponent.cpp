@@ -5,8 +5,16 @@ MainComponent::MainComponent()
 {
     addAndMakeVisible(elementSelectorComboBox);
 
-    addAndMakeVisible(slider01Vertical);
-    addAndMakeVisible(slider01Horizontal);
+    elementSelectorComboBox.addItem(juce::String("Mixing console style slider"), 1001);
+    elementSelectorComboBox.setColour(juce::ComboBox::ColourIds::backgroundColourId, slider_MixingConsoleStyle_LookAndFeel.getBackgroundColour());
+    elementSelectorComboBox.setColour(juce::ComboBox::ColourIds::outlineColourId, slider_MixingConsoleStyle_LookAndFeel.getOutlineColour());
+    //elementSelectorComboBox.setSelectedItemIndex(0, juce::NotificationType::sendNotificationAsync);
+    elementSelectorComboBox.addListener(this);
+
+    addChildComponent(slider01Vertical);
+    addChildComponent(slider01Horizontal);
+    /*addAndMakeVisible(slider01Vertical);
+    addAndMakeVisible(slider01Horizontal);*/
 
     slider01Vertical.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 50, 30);
     slider01Horizontal.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 50, 30);
@@ -39,4 +47,16 @@ void MainComponent::resized()
     localBounds.removeFromLeft(10);
 
     slider01Horizontal.setBounds(localBounds.removeFromBottom(140));
+}
+
+void MainComponent::comboBoxChanged(juce::ComboBox* comboBoxThatHasChanged)
+{
+    switch (comboBoxThatHasChanged->getSelectedItemIndex())
+    {
+    case 0:
+    {
+        slider01Vertical.setVisible(true);
+        slider01Horizontal.setVisible(true);
+    }
+    }
 }

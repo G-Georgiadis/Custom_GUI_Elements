@@ -18,6 +18,7 @@
 class Slider_MixingConsoleStyle_LookAndFeel : public juce::LookAndFeel_V4
 {
 public:
+	/** Determines the layout - th part where the slider and the textbox are drawn */
 	juce::Slider::SliderLayout getSliderLayout(juce::Slider& slider) override
 	{
 		if (slider.getSliderStyle() == juce::Slider::SliderStyle::LinearVertical)
@@ -44,6 +45,7 @@ public:
 		}
 	}
 
+	/** Draws the slider */
 	void drawLinearSlider(juce::Graphics& g, int x, int y, int width,
 		int height, float sliderPos, float minSliderPos, float maxSliderPos,
 		const juce::Slider::SliderStyle sliderStyle, juce::Slider& slider) override
@@ -59,6 +61,32 @@ public:
 
 		/** Draw the rest of the slider elements that are orientation-specific */
 		drawSliderElements(g, x, y, width, height, sliderPos, minSliderPos, maxSliderPos, sliderStyle, slider);
+	}
+
+#pragma region Orientation depended draw methods
+	/** Sets the slider style and calls the methods that draw the elements of the slider */
+	void drawSliderElements(juce::Graphics& g, int x, int y, int width, int height,
+		float sliderPos, float minSliderPos, float maxSliderPos,
+		const juce::Slider::SliderStyle sliderStyle, juce::Slider& slider)
+	{
+		if (width > height)
+		{
+			slider.setSliderStyle(juce::Slider::SliderStyle::LinearHorizontal);
+		}
+		else
+		{
+			slider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
+		}
+
+
+		/** Slider track */
+		drawLinearSliderTrack(g, x, y, width, height, sliderStyle, slider);
+
+		/** Slider cap (thumb) */
+		drawLinearSliderThumb(g, x, y, width, height, sliderPos, minSliderPos,
+			maxSliderPos, sliderStyle, slider);
+
+		drawLinearSliderGrading(g, x, y, width, height, sliderStyle);
 	}
 
 
@@ -288,30 +316,7 @@ public:
 		g.fillPath(grading);
 	}
 
-	/** Sets the slider style and calls the methods that draw the elements of the slider */
-	void drawSliderElements(juce::Graphics& g, int x, int y, int width, int height,
-		float sliderPos, float minSliderPos, float maxSliderPos,
-		const juce::Slider::SliderStyle sliderStyle, juce::Slider& slider)
-	{
-		if (width > height)
-		{
-			slider.setSliderStyle(juce::Slider::SliderStyle::LinearHorizontal);
-		}
-		else
-		{
-			slider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
-		}
-		
-
-		/** Slider track */
-		drawLinearSliderTrack(g, x, y, width, height, sliderStyle, slider);
-
-		/** Slider cap (thumb) */
-		drawLinearSliderThumb(g, x, y, width, height, sliderPos, minSliderPos,
-			maxSliderPos, sliderStyle, slider);
-
-		drawLinearSliderGrading(g, x, y, width, height, sliderStyle);
-	}
+#pragma endregion
 
 	/** Slider text box */
 #pragma region Slider text box
