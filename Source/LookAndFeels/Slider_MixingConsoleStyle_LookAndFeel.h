@@ -186,11 +186,16 @@ public:
 				trackStartY
 			);
 
-			sliderCap.addRoundedRectangle(
-				width / 3.f - sliderCapWidth / 2.f,	// StartX
+			juce::Rectangle sliderCapBounds = juce::Rectangle(width / 3.f - sliderCapWidth / 2.f,	// StartX
 				sliderPos - sliderCapHeight / 2.f,
 				sliderCapWidth,
-				sliderCapHeight,
+				sliderCapHeight);
+
+			dropShadow.drawForRectangle(g, sliderCapBounds.toNearestInt());
+
+
+			sliderCap.addRoundedRectangle(
+				sliderCapBounds,
 				sliderCapCornerSize);
 			g.setColour(sliderCapColour);
 			g.fillPath(sliderCap);
@@ -200,6 +205,7 @@ public:
 				sliderPos - 2,
 				sliderCapWidth,
 				5);
+
 			g.setColour(sliderCapCenterLineColour);
 			g.fillRect(sliderCapCenterLine);
 		}
@@ -217,11 +223,15 @@ public:
 				trackEndX
 			);
 
-			sliderCap.addRoundedRectangle(
-				sliderPos - sliderCapWidth / 2.f,
+			juce::Rectangle sliderCapBounds = juce::Rectangle(sliderPos - sliderCapWidth / 2.f,
 				height / 3.f - sliderCapHeight / 2.f,
 				sliderCapWidth,
-				sliderCapHeight,
+				sliderCapHeight);
+
+			dropShadow.drawForRectangle(g, sliderCapBounds.toNearestInt());
+
+			sliderCap.addRoundedRectangle(
+				sliderCapBounds,
 				sliderCapCornerSize);
 			g.setColour(sliderCapColour);
 			g.fillPath(sliderCap);
@@ -413,4 +423,6 @@ private:
 	const float outlineCornerSize = 10;
 	const float lineThickness = 1.f;
 	static const int numberOfDecimalPlaces = 2;
+
+	juce::DropShadow dropShadow = juce::DropShadow(juce::Colours::black.withAlpha(0.8f), 20, juce::Point(-5, 5));
 };

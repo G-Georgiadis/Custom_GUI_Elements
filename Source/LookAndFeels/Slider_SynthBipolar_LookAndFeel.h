@@ -27,7 +27,7 @@ public:
 
 			return layout;
 		}
-		else if (slider.getSliderStyle() == juce::Slider::SliderStyle::LinearHorizontal)
+		else
 		{
 			juce::Rectangle localBounds = slider.getLocalBounds();
 
@@ -176,6 +176,13 @@ public:
 		/** Slider cap path */
 		drawSliderCapPath(g, sliderCapStartX, sliderCapStartY, sliderCapWidth,
 			sliderCapHeight, sliderStyle);
+
+		
+
+		
+
+		//slider.setComponentEffect(&dropShadowEffect);
+		
 	}
 
 	/** Draws the path (shape) of the slider cap */
@@ -203,6 +210,9 @@ public:
 			sliderCapShape.closeSubPath();
 		}
 		sliderCapShape = sliderCapShape.createPathWithRoundedCorners(sliderCapCornerSize);
+		
+		
+		dropShadow.drawForPath(g, sliderCapShape);
 
 		g.setColour(sliderCapColour);
 		g.fillPath(sliderCapShape);
@@ -347,5 +357,7 @@ private:
 	const float outlineCornerSize = 5;
 	const float lineThickness = 1.f;
 	static const int numberOfDecimalPlaces = 2;
+
+	juce::DropShadow dropShadow = juce::DropShadow(juce::Colours::black.withAlpha(0.5f), 20, juce::Point(-5, 5));
 };
 
