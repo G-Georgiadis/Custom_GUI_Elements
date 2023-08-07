@@ -13,7 +13,7 @@
 class Slider_SynthBipolar_LookAndFeel : public juce::LookAndFeel_V4
 {
 public:
-	/** Determines the layout - th part where the slider and the textbox are drawn */
+	/** Determines the layout - the part where the slider and the textbox are drawn */
 	juce::Slider::SliderLayout getSliderLayout(juce::Slider& slider) override
 	{
 		if (slider.getSliderStyle() == juce::Slider::SliderStyle::LinearVertical)
@@ -224,7 +224,10 @@ public:
 			}
 			for (int i = 0; i < 21; i++)
 			{
-				g.drawLine(width * 0.75f, trackStartY + i * trackHeight / 20, width * 0.6f, trackStartY + i * trackHeight / 20);
+				if (i%5 != 0)
+				{
+					g.drawLine(width * 0.75f, trackStartY + i * trackHeight / 20, width * 0.6f, trackStartY + i * trackHeight / 20);
+				}
 			}
 		}
 		else if (sliderStyle == juce::Slider::SliderStyle::LinearHorizontal)
@@ -239,10 +242,37 @@ public:
 			}
 			for (int i = 0; i < 21; i++)
 			{
-				g.drawLine(trackStartX + i * trackWidth / 20, height * 0.75f, trackStartX + i * trackWidth / 20, height * 0.6f);
+				if (i % 5 != 0)
+				{
+					g.drawLine(trackStartX + i * trackWidth / 20, height * 0.75f, trackStartX + i * trackWidth / 20, height * 0.6f);
+				}
 			}
 		}
 	}
+#pragma endregion
+
+
+	/** Slider text box */
+#pragma region Slider text box
+	juce::Label* createSliderTextBox(juce::Slider& slider) override
+	{
+		/** Slider text box number of decimal places to display */
+		slider.setNumDecimalPlacesToDisplay(numberOfDecimalPlaces);
+
+		juce::Label* sliderTextBoxPtr = LookAndFeel_V4::createSliderTextBox(slider);
+
+		sliderTextBoxPtr->setColour(juce::Label::textColourId, juce::Colours::beige);
+		sliderTextBoxPtr->setColour(juce::Label::backgroundColourId, juce::Colours::transparentBlack);
+		sliderTextBoxPtr->setColour(juce::Label::outlineColourId, juce::Colours::transparentBlack);
+		sliderTextBoxPtr->setColour(juce::Label::textWhenEditingColourId, juce::Colours::beige);
+		sliderTextBoxPtr->setColour(juce::Label::backgroundWhenEditingColourId, juce::Colours::black);
+		sliderTextBoxPtr->setColour(juce::Label::outlineWhenEditingColourId, juce::Colours::beige);
+
+		// ToDo: Fix text box justification when editing the value
+
+		return sliderTextBoxPtr;
+	}
+
 #pragma endregion
 
 
@@ -317,8 +347,5 @@ private:
 	const float outlineCornerSize = 5;
 	const float lineThickness = 1.f;
 	static const int numberOfDecimalPlaces = 2;
-
-
-	
 };
 
