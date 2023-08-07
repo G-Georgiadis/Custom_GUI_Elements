@@ -204,10 +204,11 @@ public:
 		}
 		sliderCapShape = sliderCapShape.createPathWithRoundedCorners(sliderCapCornerSize);
 		
-		
+		/** Add a drop shadow before drawing the slider cap (so the shadow is under the slider cap). */
 		dropShadow.drawForPath(g, sliderCapShape);
 
 		g.setColour(sliderCapColour);
+		/** Draw the slider cap. */
 		g.fillPath(sliderCapShape);
 	}
 

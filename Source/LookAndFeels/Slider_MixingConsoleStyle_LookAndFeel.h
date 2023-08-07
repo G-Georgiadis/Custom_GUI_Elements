@@ -191,6 +191,7 @@ public:
 				sliderCapWidth,
 				sliderCapHeight);
 
+			/** Add a drop shadow before drawing the slider cap (so the shadow is under the slider cap) */
 			dropShadow.drawForRectangle(g, sliderCapBounds.toNearestInt());
 
 
@@ -228,6 +229,7 @@ public:
 				sliderCapWidth,
 				sliderCapHeight);
 
+			/** Add a drop shadow before drawing the slider cap (so the shadow is under the slider cap) */
 			dropShadow.drawForRectangle(g, sliderCapBounds.toNearestInt());
 
 			sliderCap.addRoundedRectangle(
