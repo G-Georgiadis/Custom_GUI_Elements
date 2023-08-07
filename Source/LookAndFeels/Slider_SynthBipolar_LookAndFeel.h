@@ -176,13 +176,6 @@ public:
 		/** Slider cap path */
 		drawSliderCapPath(g, sliderCapStartX, sliderCapStartY, sliderCapWidth,
 			sliderCapHeight, sliderStyle);
-
-		
-
-		
-
-		//slider.setComponentEffect(&dropShadowEffect);
-		
 	}
 
 	/** Draws the path (shape) of the slider cap */
