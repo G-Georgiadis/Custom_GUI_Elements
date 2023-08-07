@@ -68,8 +68,8 @@ void MainComponent::resized()
     slider01Horizontal.setBounds(horizontalSliderBounds);
 
 
-    slider02Vertical.setBounds(0, elementSelectorComboBox.getHeight() + 10, 40, 200);
-    slider02Horizontal.setBounds(60, getLocalBounds().getHeight() - 150, 300, 60);
+    slider02Vertical.setBounds(verticalSliderBounds);
+    slider02Horizontal.setBounds(horizontalSliderBounds);
 }
 
 void MainComponent::comboBoxChanged(juce::ComboBox* comboBoxThatHasChanged)
@@ -84,11 +84,19 @@ void MainComponent::comboBoxChanged(juce::ComboBox* comboBoxThatHasChanged)
         {
             slider01Vertical.setVisible(true);
             slider01Horizontal.setVisible(true);
+            break;
+
         }
         case 1:
         {
             slider02Vertical.setVisible(true);
             slider02Horizontal.setVisible(true);
+            break;
+        }
+        default:
+        {
+            slider01Vertical.setVisible(true);
+            slider01Horizontal.setVisible(true);
         }
         }
     }

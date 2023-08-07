@@ -201,7 +201,7 @@ public:
 	/** Draws the grading lines */
 	void drawGradingLines(juce::Graphics& g, int x, int y, int width, int height, juce::Slider::SliderStyle sliderStyle)
 	{
-		g.setColour(outlineColour);
+		g.setColour(outlineColour.darker(0.5));
 		if (sliderStyle == juce::Slider::SliderStyle::LinearVertical)
 		{
 			/** Long line */
