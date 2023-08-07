@@ -63,6 +63,16 @@ public:
 		drawGradingLines(g, x, y, width, height, sliderStyle);
 	}
 
+
+#pragma region Slider drawing methods
+	/** Sets the slider orientation based on the given width/height */
+	void setSliderOrientation(int width,
+		int height, juce::Slider& slider)
+	{
+		if (height >= width) slider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
+		else slider.setSliderStyle(juce::Slider::SliderStyle::LinearHorizontal);
+	}
+
 	/** Draws the background of sliders */
 	void drawLinearSliderBackground(juce::Graphics& g, int x, int y, int width, int height,
 		float sliderPos, float minSliderPos, float maxSliderPos,
@@ -150,7 +160,7 @@ public:
 			sliderCapHeight = 0.8f * sliderCapWidth;
 			sliderCapStartX = trackStartX - sliderCapWidth * 0.25;
 			sliderCapStartY = sliderPos - sliderCapHeight / 2.f;
-			
+
 		}
 		else if (sliderStyle == juce::Slider::SliderStyle::LinearHorizontal)
 		{
@@ -225,7 +235,7 @@ public:
 			/** Shorter lines */
 			for (int i = 0; i < 5; i++)
 			{
-				g.drawLine(trackStartX + i * trackWidth / 4, height * 0.75f, trackStartX + i * trackWidth / 4, height *  0.55f);
+				g.drawLine(trackStartX + i * trackWidth / 4, height * 0.75f, trackStartX + i * trackWidth / 4, height * 0.55f);
 			}
 			for (int i = 0; i < 21; i++)
 			{
@@ -233,6 +243,55 @@ public:
 			}
 		}
 	}
+#pragma endregion
+
+
+#pragma region Colour getters and setters
+	/** Background colour */
+	void setBackgroundColour(juce::Colour newColour)
+	{
+		backgroundColour = newColour;
+	}
+
+	juce::Colour getBackgroundColour()
+	{
+		return backgroundColour;
+	}
+
+	/** Outline colour */
+	void setOutlineColour(juce::Colour newColour)
+	{
+		outlineColour = newColour;
+	}
+
+	juce::Colour getOutlineColour()
+	{
+		return outlineColour;
+	}
+
+	/** Slider cap colour */
+	void setSliderCapColour(juce::Colour newColour)
+	{
+		sliderCapColour = newColour;
+	}
+
+	juce::Colour getSliderCapColour()
+	{
+		return sliderCapColour;
+	}
+
+	/** Slider cap line colour */
+	void setSliderCapLineColour(juce::Colour newColour)
+	{
+		sliderCapCenterLineColour = newColour;
+	}
+
+	juce::Colour getSliderCapLineColour()
+	{
+		return sliderCapCenterLineColour;
+	}
+#pragma endregion
+
 
 private:
 	/** Colours */
@@ -260,11 +319,6 @@ private:
 	static const int numberOfDecimalPlaces = 2;
 
 
-	void setSliderOrientation(int width,
-		int height, juce::Slider& slider)
-	{
-		if (height >= width) slider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
-		else slider.setSliderStyle(juce::Slider::SliderStyle::LinearHorizontal);
-	}
+	
 };
 
