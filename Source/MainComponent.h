@@ -3,6 +3,7 @@
 #include <JuceHeader.h>
 #include "LookAndFeels/Slider_MixingConsoleStyle_LookAndFeel.h"
 #include "LookAndFeels/Slider_SynthBipolar_LookAndFeel.h"
+#include "Components/WaveformButton.h"
 
 //==============================================================================
 /*
@@ -30,6 +31,22 @@ private:
     Slider_SynthBipolar_LookAndFeel slider_SynthBipolar_LookAndFeel;
     juce::Slider slider02Vertical;
     juce::Slider slider02Horizontal;
+
+    ///** Button background colour */
+    //Colour buttonBackgroundColour = Colours::transparentBlack;
+    ///** Button state colours */
+    //Colour normalButtonColour = Colours::black.brighter(0.1);
+    //Colour overbuttonColour = Colours::darkred.darker(0.9);
+    //Colour downButonColour = Colours::darkred.darker(0.7);
+
+    //WaveformButton_LookAndFeel waveformButtonLookAndFeel;
+    WaveformButton sawtoothButton = WaveformButton(String("sawtoothButton"));
+    /*WaveformButton pulseButton = WaveformButton(String("pulseButton"));
+    WaveformButton triangleButton = WaveformButton(String("triangleButton"));
+    WaveformButton sinewaveButton = WaveformButton(String("sinewaveButton"));
+    WaveformButton noiseButton = WaveformButton(String("noiseButton"));*/
+
+    
 
     void makeAllControlsInvisible();
 
