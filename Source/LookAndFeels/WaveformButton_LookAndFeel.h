@@ -1,6 +1,7 @@
 #pragma once
 
 #include "JuceHeader.h"
+#include "..\Shapes\Shapes.h"
 
 using namespace juce;
 /**
@@ -98,32 +99,32 @@ public:
 		{
 		case Sawtooth:
 		{
-			g.strokePath(getSawtoothPath(localBounds.toFloat()), strokeType);
+			g.strokePath(Shapes::getSawtoothPath(localBounds.toFloat()), strokeType);
 			break;
 		}
 		case Pulse:
 		{
-			g.strokePath(getPulsePath(localBounds.toFloat()), strokeType);
+			g.strokePath(Shapes::getPulsePath(localBounds.toFloat()), strokeType);
 			break;
 		}
 		case Triangle:
 		{
-			g.strokePath(getTrianglePath(localBounds.toFloat()), strokeType);
+			g.strokePath(Shapes::getTrianglePath(localBounds.toFloat()), strokeType);
 			break;
 		}
 		case Sinewave:
 		{
-			g.strokePath(getSinewavePath(localBounds.toFloat()), strokeType);
+			g.strokePath(Shapes::getSinewavePath(localBounds.toFloat()), strokeType);
 			break;
 		}
 		case Noise:
 		{
-			g.strokePath(getNoisePath(localBounds.toFloat()), strokeType);
+			g.strokePath(Shapes::getNoisePath(localBounds.toFloat()), strokeType);
 			break;
 		}
 		default:
 		{
-			g.strokePath(getSawtoothPath(localBounds.toFloat()), strokeType);
+			g.strokePath(Shapes::getSawtoothPath(localBounds.toFloat()), strokeType);
 			break;
 		}
 		}
@@ -233,176 +234,175 @@ private:
 	/** Down (when pressed) button colour */
 	Colour downButonColour = Colours::black.brighter(0.6);
 
-	/** Shapes */
-	/** Returns a sawtooth shaped Path */
-	Path getSawtoothPath(Rectangle<float>&& buttonBounds)
-	{
-		buttonBounds.reduced(6, 6);
+	///** Shapes */
+	///** Returns a sawtooth shaped Path */
+	//Path getSawtoothPath(Rectangle<float>&& buttonBounds)
+	//{
+	//	buttonBounds.reduced(6, 6);
 
-		/** Bounds dimensions. */
-		float boundsX = buttonBounds.getX();
-		float boundsY = buttonBounds.getY();
-		float boundsWidth = buttonBounds.getWidth();
-		float boundsHeight = buttonBounds.getHeight();
+	//	/** Bounds dimensions. */
+	//	float boundsX = buttonBounds.getX();
+	//	float boundsY = buttonBounds.getY();
+	//	float boundsWidth = buttonBounds.getWidth();
+	//	float boundsHeight = buttonBounds.getHeight();
 
-		//float buttonSide
+	//	//float buttonSide
 
-		/** Button X and Y centers */
-		float centerX = boundsWidth / 2.f;
-		float centerY = boundsHeight / 2.f;
+	//	/** Button X and Y centers */
+	//	float centerX = boundsWidth / 2.f;
+	//	float centerY = boundsHeight / 2.f;
 
-		auto sawtoothPath = Path();
+	//	auto sawtoothPath = Path();
 
-		/** Design the sawtooth path. */
-		sawtoothPath.startNewSubPath(centerX - centerY, boundsY + centerY);
-		sawtoothPath.lineTo(centerX, boundsY + boundsHeight * 0.2f);
-		sawtoothPath.lineTo(centerX, boundsY + boundsHeight * 0.8f);
-		sawtoothPath.lineTo(centerX + centerY, boundsY + centerY);
+	//	/** Design the sawtooth path. */
+	//	sawtoothPath.startNewSubPath(centerX - centerY, boundsY + centerY);
+	//	sawtoothPath.lineTo(centerX, boundsY + boundsHeight * 0.2f);
+	//	sawtoothPath.lineTo(centerX, boundsY + boundsHeight * 0.8f);
+	//	sawtoothPath.lineTo(centerX + centerY, boundsY + centerY);
 
-		return sawtoothPath;
-	}
+	//	return sawtoothPath;
+	//}
 
-	/** Returns a pulse shaped Path */
-	Path getPulsePath(Rectangle<float>&& buttonBounds)
-	{
-		buttonBounds.reduced(6, 6);
+	///** Returns a pulse shaped Path */
+	//Path getPulsePath(Rectangle<float>&& buttonBounds)
+	//{
+	//	buttonBounds.reduced(6, 6);
 
-		/** Bounds dimensions. */
-		float boundsX = buttonBounds.getX();
-		float boundsY = buttonBounds.getY();
-		float boundsWidth = buttonBounds.getWidth();
-		float boundsHeight = buttonBounds.getHeight();
+	//	/** Bounds dimensions. */
+	//	float boundsX = buttonBounds.getX();
+	//	float boundsY = buttonBounds.getY();
+	//	float boundsWidth = buttonBounds.getWidth();
+	//	float boundsHeight = buttonBounds.getHeight();
 
-		//float buttonSide
+	//	//float buttonSide
 
-		/** Button X and Y centers */
-		float centerX = boundsWidth / 2.f;
-		float centerY = boundsHeight / 2.f;
+	//	/** Button X and Y centers */
+	//	float centerX = boundsWidth / 2.f;
+	//	float centerY = boundsHeight / 2.f;
 
-		auto pulsePath = Path();
+	//	auto pulsePath = Path();
 
-		/** Design the pulse path. */
-		pulsePath.startNewSubPath(centerX - centerY, boundsY + centerY);
-		pulsePath.lineTo(centerX - centerY, boundsY + boundsHeight * 0.2f);	//Up
-		pulsePath.lineTo(centerX - centerY / 3.f, boundsY + boundsHeight * 0.2f);	//Right
-		pulsePath.lineTo(centerX - centerY / 3.f, boundsY + boundsHeight * 0.8f);	//Down
-		pulsePath.lineTo(centerX + centerY, boundsY + boundsHeight * 0.8f);	//Right
-		pulsePath.lineTo(centerX + centerY, boundsY + boundsHeight / 2.f);	//Up
-
-
-		return pulsePath;
-	}
-
-	/** Returns a triangle shaped Path */
-	Path getTrianglePath(Rectangle<float>&& buttonBounds)
-	{
-		buttonBounds.reduced(6, 6);
-
-		/** Bounds dimensions. */
-		float boundsX = buttonBounds.getX();
-		float boundsY = buttonBounds.getY();
-		float boundsWidth = buttonBounds.getWidth();
-		float boundsHeight = buttonBounds.getHeight();
-
-		//float buttonSide
-
-		/** Button X and Y centers */
-		float centerX = boundsWidth / 2.f;
-		float centerY = boundsHeight / 2.f;
-
-		auto trianglePath = Path();
-
-		/** Design the triangle path. */
-		trianglePath.startNewSubPath(centerX - centerY, boundsY + centerY);
-		trianglePath.lineTo(centerX - centerY / 2.f, boundsY + boundsHeight * 0.2f);	//Up-Rigth
-		trianglePath.lineTo(centerX, centerY);	//Center
-		trianglePath.lineTo(centerX + centerY / 2.f, boundsY + boundsHeight * 0.8f);	//Down
-		trianglePath.lineTo(centerX + centerY, boundsY + centerY);	//Up-Right
-		
+	//	/** Design the pulse path. */
+	//	pulsePath.startNewSubPath(centerX - centerY, boundsY + centerY);
+	//	pulsePath.lineTo(centerX - centerY, boundsY + boundsHeight * 0.2f);	//Up
+	//	pulsePath.lineTo(centerX - centerY / 3.f, boundsY + boundsHeight * 0.2f);	//Right
+	//	pulsePath.lineTo(centerX - centerY / 3.f, boundsY + boundsHeight * 0.8f);	//Down
+	//	pulsePath.lineTo(centerX + centerY, boundsY + boundsHeight * 0.8f);	//Right
+	//	pulsePath.lineTo(centerX + centerY, boundsY + boundsHeight / 2.f);	//Up
 
 
-		return trianglePath;
-	}
+	//	return pulsePath;
+	//}
 
-	/** Returns a sinewave shaped Path */
-	Path getSinewavePath(Rectangle<float>&& buttonBounds)
-	{
-		buttonBounds.reduced(6, 6);
+	///** Returns a triangle shaped Path */
+	//Path getTrianglePath(Rectangle<float>&& buttonBounds)
+	//{
+	//	buttonBounds.reduced(6, 6);
 
-		/** Bounds dimensions. */
-		float boundsX = buttonBounds.getX();
-		float boundsY = buttonBounds.getY();
-		float boundsWidth = buttonBounds.getWidth();
-		float boundsHeight = buttonBounds.getHeight();
+	//	/** Bounds dimensions. */
+	//	float boundsX = buttonBounds.getX();
+	//	float boundsY = buttonBounds.getY();
+	//	float boundsWidth = buttonBounds.getWidth();
+	//	float boundsHeight = buttonBounds.getHeight();
 
-		//float buttonSide
+	//	//float buttonSide
 
-		/** Button X and Y centers */
-		float centerX = boundsWidth / 2.f;
-		float centerY = boundsHeight / 2.f;
+	//	/** Button X and Y centers */
+	//	float centerX = boundsWidth / 2.f;
+	//	float centerY = boundsHeight / 2.f;
 
-		auto sinewavePath = Path();
+	//	auto trianglePath = Path();
 
-		/** Design the sinewave path. */
-		sinewavePath.startNewSubPath(centerX - centerY, boundsY + centerY);
-		sinewavePath.addArc(
-			centerX - centerY,	// X
-			boundsY + boundsHeight * 0.2f,	// Y
-			boundsHeight / 2.f,
-			boundsHeight * 0.6f,
-			-0.5f * juce::float_Pi,
-			0.5f * juce::float_Pi
-		);
-		sinewavePath.addArc(
-			centerX,
-			boundsY + boundsHeight * 0.2f,
-			boundsHeight / 2.f,
-			boundsHeight * 0.6f,
-			-0.5f * juce::float_Pi,
-			-1.5f * juce::float_Pi
-		);
+	//	/** Design the triangle path. */
+	//	trianglePath.startNewSubPath(centerX - centerY, boundsY + centerY);
+	//	trianglePath.lineTo(centerX - centerY / 2.f, boundsY + boundsHeight * 0.2f);	//Up-Rigth
+	//	trianglePath.lineTo(centerX, centerY);	//Center
+	//	trianglePath.lineTo(centerX + centerY / 2.f, boundsY + boundsHeight * 0.8f);	//Down
+	//	trianglePath.lineTo(centerX + centerY, boundsY + centerY);	//Up-Right
+	//	
 
 
+	//	return trianglePath;
+	//}
 
-		return sinewavePath;
-	}
+	///** Returns a sinewave shaped Path */
+	//Path getSinewavePath(Rectangle<float>&& buttonBounds)
+	//{
+	//	buttonBounds.reduced(6, 6);
 
-	/** Returns a noise shaped Path */
-	Path getNoisePath(Rectangle<float>&& buttonBounds)
-	{
-		if (noisePath.isEmpty())
-		{
-			buttonBounds.reduced(6, 6);
+	//	/** Bounds dimensions. */
+	//	float boundsX = buttonBounds.getX();
+	//	float boundsY = buttonBounds.getY();
+	//	float boundsWidth = buttonBounds.getWidth();
+	//	float boundsHeight = buttonBounds.getHeight();
 
-			/** Bounds dimensions. */
-			float boundsX = buttonBounds.getX();
-			float boundsY = buttonBounds.getY();
-			float boundsWidth = buttonBounds.getWidth();
-			float boundsHeight = buttonBounds.getHeight();
+	//	//float buttonSide
 
-			//float buttonSide
+	//	/** Button X and Y centers */
+	//	float centerX = boundsWidth / 2.f;
+	//	float centerY = boundsHeight / 2.f;
 
-			/** Button X and Y centers */
-			float centerX = boundsWidth / 2.f;
-			float centerY = boundsHeight / 2.f;
-			float stepX = boundsWidth / 9.f;
+	//	auto sinewavePath = Path();
 
-			/** Design the noise path. */
-			noisePath.startNewSubPath(centerX - centerY, boundsY + centerY);
-			for (int i = 1; i < 6; i++)
-			{
-				noisePath.lineTo(centerX - centerY + stepX * i, boundsY + boundsHeight * 0.2f + random.nextFloat() * 0.6f * boundsHeight);
-			}
-			noisePath.lineTo(centerX + centerY, boundsY + centerY);
+	//	/** Design the sinewave path. */
+	//	sinewavePath.startNewSubPath(centerX - centerY, boundsY + centerY);
+	//	sinewavePath.addArc(
+	//		centerX - centerY,	// X
+	//		boundsY + boundsHeight * 0.2f,	// Y
+	//		boundsHeight / 2.f,
+	//		boundsHeight * 0.6f,
+	//		-0.5f * juce::float_Pi,
+	//		0.5f * juce::float_Pi
+	//	);
+	//	sinewavePath.addArc(
+	//		centerX,
+	//		boundsY + boundsHeight * 0.2f,
+	//		boundsHeight / 2.f,
+	//		boundsHeight * 0.6f,
+	//		-0.5f * juce::float_Pi,
+	//		-1.5f * juce::float_Pi
+	//	);
 
-			return noisePath;
-		}
-		else return noisePath;
-	}
+
+
+	//	return sinewavePath;
+	//}
+
+	///** Returns a noise shaped Path */
+	//Path getNoisePath(Rectangle<float>&& buttonBounds)
+	//{
+	//	if (noisePath.isEmpty())
+	//	{
+	//		buttonBounds.reduced(6, 6);
+
+	//		/** Bounds dimensions. */
+	//		float boundsX = buttonBounds.getX();
+	//		float boundsY = buttonBounds.getY();
+	//		float boundsWidth = buttonBounds.getWidth();
+	//		float boundsHeight = buttonBounds.getHeight();
+
+	//		//float buttonSide
+
+	//		/** Button X and Y centers */
+	//		float centerX = boundsWidth / 2.f;
+	//		float centerY = boundsHeight / 2.f;
+	//		float stepX = boundsWidth / 9.f;
+
+	//		/** Design the noise path. */
+	//		noisePath.startNewSubPath(centerX - centerY, boundsY + centerY);
+	//		for (int i = 1; i < 6; i++)
+	//		{
+	//			noisePath.lineTo(centerX - centerY + stepX * i, boundsY + boundsHeight * 0.2f + random.nextFloat() * 0.6f * boundsHeight);
+	//		}
+	//		noisePath.lineTo(centerX + centerY, boundsY + centerY);
+
+	//		return noisePath;
+	//	}
+	//	else return noisePath;
+	//}
 
 	/** The path of the shape for noise button. */
 	Path noisePath;
 
-	/** Instance of Random. */
-	Random random;
+	
 };
