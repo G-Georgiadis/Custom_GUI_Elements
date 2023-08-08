@@ -55,50 +55,41 @@ public:
 
 	void drawWaveformShape(Graphics& g, Waveform waveform, Rectangle<int> localBounds, bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown)
 	{
-		if (this->waveform == Sawtooth)
-		{
-			float strokeLineThickness = 2;
-			PathStrokeType::JointStyle jointStyle = PathStrokeType::JointStyle();
-			PathStrokeType strokeType(strokeLineThickness, jointStyle);
+		float strokeLineThickness = 2;
+		PathStrokeType::JointStyle jointStyle = PathStrokeType::JointStyle();
+		PathStrokeType strokeType(strokeLineThickness, jointStyle);
 
-			g.setColour(Colours::darkorange);
+		g.setColour(Colours::darkorange);
+
+		switch (this->waveform)
+		{
+		case Sawtooth:
+		{
 			g.strokePath(getSawtoothPath(localBounds.toFloat()), strokeType);
+			break;
 		}
-		if (this->waveform == Pulse)
+		case Pulse:
 		{
-			float strokeLineThickness = 2;
-			PathStrokeType::JointStyle jointStyle = PathStrokeType::JointStyle();
-			PathStrokeType strokeType(strokeLineThickness, jointStyle);
-
-			g.setColour(Colours::darkorange);
 			g.strokePath(getPulsePath(localBounds.toFloat()), strokeType);
+			break;
 		}
-		if (this->waveform == Triangle)
+		case Triangle:
 		{
-			float strokeLineThickness = 2;
-			PathStrokeType::JointStyle jointStyle = PathStrokeType::JointStyle();
-			PathStrokeType strokeType(strokeLineThickness, jointStyle);
-
-			g.setColour(Colours::darkorange);
 			g.strokePath(getTrianglePath(localBounds.toFloat()), strokeType);
+			break;
 		}
-		if (this->waveform == Sinewave)
+		case Sinewave:
 		{
-			float strokeLineThickness = 2;
-			PathStrokeType::JointStyle jointStyle = PathStrokeType::JointStyle();
-			PathStrokeType strokeType(strokeLineThickness, jointStyle);
-
-			g.setColour(Colours::darkorange);
 			g.strokePath(getSinewavePath(localBounds.toFloat()), strokeType);
+			break;
 		}
-		if (this->waveform == Noise)
+		case Noise:
 		{
-			float strokeLineThickness = 2;
-			PathStrokeType::JointStyle jointStyle = PathStrokeType::JointStyle();
-			PathStrokeType strokeType(strokeLineThickness, jointStyle);
-
-			g.setColour(Colours::darkorange);
 			g.strokePath(getNoisePath(localBounds.toFloat()), strokeType);
+			break;
+		}
+		default:
+			break;
 		}
 	}
 
