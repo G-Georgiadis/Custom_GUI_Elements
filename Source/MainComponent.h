@@ -22,32 +22,33 @@ public:
     void resized() override;
 
 private:
+    /** The combo box for GUI element selection */
     juce::ComboBox elementSelectorComboBox;
 
+    /** LookAndFeel for the mixing console style slider */
     Slider_MixingConsoleStyle_LookAndFeel slider_MixingConsoleStyle_LookAndFeel;
+    /** Vertical mixing console style slider */
     juce::Slider slider01Vertical;
+    /** Horizontal mixing console style slider */
     juce::Slider slider01Horizontal;
     
+    /** LookAndFeel for the synth bipolar slider */
     Slider_SynthBipolar_LookAndFeel slider_SynthBipolar_LookAndFeel;
+    /** Vertical bipolar slider */
     juce::Slider slider02Vertical;
+    /** Horizontal bipolar slider */
     juce::Slider slider02Horizontal;
 
-    ///** Button background colour */
-    //Colour buttonBackgroundColour = Colours::transparentBlack;
-    ///** Button state colours */
-    //Colour normalButtonColour = Colours::black.brighter(0.1);
-    //Colour overbuttonColour = Colours::darkred.darker(0.9);
-    //Colour downButonColour = Colours::darkred.darker(0.7);
 
-    //WaveformButton_LookAndFeel waveformButtonLookAndFeel;
+    // Waveform selection buttons
+    
     WaveformButton sawtoothButton = WaveformButton(String("sawtoothButton"));
-    /*WaveformButton pulseButton = WaveformButton(String("pulseButton"));
+    WaveformButton pulseButton = WaveformButton(String("pulseButton"));
     WaveformButton triangleButton = WaveformButton(String("triangleButton"));
     WaveformButton sinewaveButton = WaveformButton(String("sinewaveButton"));
-    WaveformButton noiseButton = WaveformButton(String("noiseButton"));*/
+    WaveformButton noiseButton = WaveformButton(String("noiseButton"));
 
     
-
     void makeAllControlsInvisible();
 
     // Inherited via Listener

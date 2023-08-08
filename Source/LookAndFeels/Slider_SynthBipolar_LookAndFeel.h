@@ -352,6 +352,6 @@ private:
 	const float lineThickness = 1.f;
 	static const int numberOfDecimalPlaces = 2;
 
-	juce::DropShadow dropShadow = juce::DropShadow(juce::Colours::black.withAlpha(0.5f), 20, juce::Point(-5, 5));
+	juce::DropShadow dropShadow = juce::DropShadow(juce::Colours::black.withAlpha(0.8f), 20, juce::Point(-5, 5));
 };
 

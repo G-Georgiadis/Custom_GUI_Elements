@@ -17,6 +17,10 @@ public:
 	void paintButton(Graphics& g,
 		bool shouldDrawButtonAsHighlighted,
 		bool shouldDrawButtonAsDown) override;
+
+	void setWaveform(WaveformButton_LookAndFeel::Waveform newWaveform);
+
+	WaveformButton_LookAndFeel::Waveform getWaveform();
 private:
 	WaveformButton_LookAndFeel waveformButton_LookAndFeel;
 	

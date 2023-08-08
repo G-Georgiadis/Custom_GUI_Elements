@@ -9,7 +9,9 @@ WaveformButton::WaveformButton(const juce::String& buttonName)
         waveformButton_LookAndFeel.getDownButtonColour()
     )
 {
-    this->setLookAndFeel(&waveformButton_LookAndFeel);
+    setLookAndFeel(&waveformButton_LookAndFeel);
+    
+    setClickingTogglesState(true);
 }
 
 WaveformButton::~WaveformButton()
@@ -31,3 +33,15 @@ void WaveformButton::paintButton(Graphics& g, bool shouldDrawButtonAsHighlighted
     waveformButton_LookAndFeel.drawWaveformShape(g, waveformButton_LookAndFeel.Sawtooth,
         this->getLocalBounds(), shouldDrawButtonAsHighlighted, shouldDrawButtonAsDown);
 }
+
+void WaveformButton::setWaveform(WaveformButton_LookAndFeel::Waveform newWaveform)
+{
+    waveformButton_LookAndFeel.setWaveform(newWaveform);
+}
+
+WaveformButton_LookAndFeel::Waveform WaveformButton::getWaveform()
+{
+    return waveformButton_LookAndFeel.getWaveform();
+}
+
+
