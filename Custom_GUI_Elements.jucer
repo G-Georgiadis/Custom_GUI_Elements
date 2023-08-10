@@ -10,12 +10,18 @@
         <FILE id="BErsOY" name="Shapes.h" compile="0" resource="0" file="Source/Shapes/Shapes.h"/>
       </GROUP>
       <GROUP id="{B67D4CFD-399E-C372-7FD0-CC46E5223639}" name="Components">
+        <FILE id="OeLPHE" name="RotaryKnob_GearShaped.cpp" compile="1" resource="0"
+              file="Source/Components/RotaryKnob_GearShaped.cpp"/>
+        <FILE id="hZQ1YQ" name="RotaryKnob_GearShaped.h" compile="0" resource="0"
+              file="Source/Components/RotaryKnob_GearShaped.h"/>
         <FILE id="zFvkak" name="WaveformButton.cpp" compile="1" resource="0"
               file="Source/Components/WaveformButton.cpp"/>
         <FILE id="Kby3Ka" name="WaveformButton.h" compile="0" resource="0"
               file="Source/Components/WaveformButton.h"/>
       </GROUP>
       <GROUP id="{A22A6052-5C36-1D78-D788-9F21BDDD03FE}" name="LookAndFeels">
+        <FILE id="C1D49t" name="RotaryKnob_GearShaped_LookAndFeel.h" compile="0"
+              resource="0" file="Source/LookAndFeels/RotaryKnob_GearShaped_LookAndFeel.h"/>
         <FILE id="PR7qU3" name="Slider_MixingConsoleStyle_LookAndFeel.h" compile="0"
               resource="0" file="Source/LookAndFeels/Slider_MixingConsoleStyle_LookAndFeel.h"/>
         <FILE id="DsjOK8" name="Slider_SynthBipolar_LookAndFeel.h" compile="0"

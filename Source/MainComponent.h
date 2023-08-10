@@ -3,6 +3,7 @@
 #include <JuceHeader.h>
 #include "LookAndFeels/Slider_MixingConsoleStyle_LookAndFeel.h"
 #include "LookAndFeels/Slider_SynthBipolar_LookAndFeel.h"
+#include "Components/RotaryKnob_GearShaped.h"
 #include "Components/WaveformButton.h"
 
 //==============================================================================
@@ -38,6 +39,9 @@ private:
     juce::Slider slider02Vertical;
     /** Horizontal bipolar slider */
     juce::Slider slider02Horizontal;
+
+
+    RotaryKnob_GearShaped rotaryKnob_GearShaped;
 
 
     // Waveform selection buttons

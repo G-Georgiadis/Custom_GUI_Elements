@@ -424,7 +424,7 @@ private:
 	const float border = 2;
 	const float outlineCornerSize = 10;
 	const float lineThickness = 1.f;
-	static const int numberOfDecimalPlaces = 2;
+	static constexpr int numberOfDecimalPlaces = 2;
 
 	juce::DropShadow dropShadow = juce::DropShadow(juce::Colours::black.withAlpha(0.8f), 20, juce::Point(-5, 5));
 };

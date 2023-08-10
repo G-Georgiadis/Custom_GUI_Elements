@@ -17,7 +17,9 @@ MainComponent::MainComponent()
 
 	elementSelectorComboBox.addItem(juce::String("Mixing console style slider"), 1001);
 	elementSelectorComboBox.addItem(juce::String("Synth bipolar slider"), 1002);
-	elementSelectorComboBox.addItem(juce::String("Waveform buttons"), 1003);
+	elementSelectorComboBox.addItem(juce::String("Rotary gear-shaped knob"), 1003);
+	elementSelectorComboBox.addItem(juce::String("Waveform buttons"), 1004);
+	
 
 	elementSelectorComboBox.setColour(juce::ComboBox::ColourIds::backgroundColourId, slider_MixingConsoleStyle_LookAndFeel.getBackgroundColour());
 	elementSelectorComboBox.setColour(juce::ComboBox::ColourIds::outlineColourId, slider_MixingConsoleStyle_LookAndFeel.getOutlineColour());
@@ -49,6 +51,9 @@ MainComponent::MainComponent()
 	slider02Vertical.setRange(-1, 1, 0.01);
 	slider02Horizontal.setRange(-1, 1, 0.01);
 
+
+	/** Gear shaped rotary slider */
+	addChildComponent(rotaryKnob_GearShaped);
 
 
 	/** Sawtooth button */
@@ -91,6 +96,8 @@ void MainComponent::resized()
 	juce::Rectangle localBounds = getLocalBounds();
 	elementSelectorComboBox.setBounds(localBounds.removeFromTop(30));
 	localBounds.removeFromTop(10);
+
+	rotaryKnob_GearShaped.setBounds(localBounds);
 
 	/** Waveform buttons */
 	for (int i = 0; i < 5; i++)
@@ -135,7 +142,7 @@ void MainComponent::resized()
 	slider02Vertical.setBounds(verticalSliderBounds);
 	slider02Horizontal.setBounds(horizontalSliderBounds);
 
-
+	//rotaryKnob_GearShaped.setBounds(10, 40, 100, 100);
 }
 
 void MainComponent::comboBoxChanged(juce::ComboBox* comboBoxThatHasChanged)
@@ -159,7 +166,12 @@ void MainComponent::comboBoxChanged(juce::ComboBox* comboBoxThatHasChanged)
 			slider02Horizontal.setVisible(true);
 			break;
 		}
-		case 2: //Waveform buttons
+		case 2:// Rotary gear-shaped knob
+		{
+			rotaryKnob_GearShaped.setVisible(true);
+			break;
+		}
+		case 3:	 //Waveform buttons
 		{
 			sawtoothButton.setVisible(true);
 			pulseButton.setVisible(true);
@@ -184,6 +196,8 @@ void MainComponent::makeAllControlsInvisible()
 
 	slider02Vertical.setVisible(false);
 	slider02Horizontal.setVisible(false);
+
+	rotaryKnob_GearShaped.setVisible(false);
 
 	sawtoothButton.setVisible(false);
 	pulseButton.setVisible(false);
