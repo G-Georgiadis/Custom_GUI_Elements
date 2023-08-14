@@ -39,40 +39,7 @@ public:
     static Path getNoisePath(Rectangle<float>&& buttonBounds);
 
     // Slider and knob shapes
-<<<<<<< HEAD
 	static Path getGearShapedPath(int numberOfSides, float totalDiameter, float totalCenterX, float totalCenterY, float knobGearInnerDiameter);
-	
-=======
-    static Path getGearShapedPath(int numberOfSides, float totalDiameter, float totalCenterX, float totalCenterY, float knobGearInnerDiameter)
-	{
-		Path gearShapedKnobPath;
-		/** Circle to take an arc from */
-		float radiusOfCircleToTakeArcFrom = 0.25f * totalDiameter;
-		float circleToTakeArcFrom_CenterX = totalCenterX;
-		float circleToTakeArcFrom_CenterY = totalCenterY - knobGearInnerDiameter;
-		float circleToTakeArcFrom_Radius = knobGearInnerDiameter / 2.f;
-		constexpr float eighthOfCircleRadians = MathConstants<float>::pi / 4.f;
-		/** The gear shape will be created by drawing arcs, connecting them
-		 * (to make the outer flat bits) and then filling the inside. */
-		for (int i = 0; i < numberOfSides; i++)
-		{
-			bool beginNewSubpath = (i == 0) ? true : false;	// New path for the 1st arc only so that the rest are connected.
-			gearShapedKnobPath.addCentredArc(
-				circleToTakeArcFrom_CenterX,	//centerX
-				circleToTakeArcFrom_CenterY,	//centerY
-				circleToTakeArcFrom_Radius,	//radiusX
-				circleToTakeArcFrom_Radius,	//radiusY
-				0,	// Angle by which the whole ellipse should be rotated about its centre, in radians (clockwise)
-				3.5f * eighthOfCircleRadians,	// From radians
-				4.5f * eighthOfCircleRadians,	// To radians
-				beginNewSubpath);
-			gearShapedKnobPath.applyTransform(AffineTransform::rotation(eighthOfCircleRadians, totalCenterX, totalCenterY));
-		}
-		gearShapedKnobPath.closeSubPath();
-
-		return gearShapedKnobPath;
-	}
->>>>>>> 1949dc2cfae7546a750f57acbdfab891bd9036ec
 private:
     static const Rectangle<int> localBounds;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Shapes)
