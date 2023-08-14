@@ -39,6 +39,10 @@ public:
     static Path getNoisePath(Rectangle<float>&& buttonBounds);
 
     // Slider and knob shapes
+<<<<<<< HEAD
+	static Path getGearShapedPath(int numberOfSides, float totalDiameter, float totalCenterX, float totalCenterY, float knobGearInnerDiameter);
+	
+=======
     static Path getGearShapedPath(int numberOfSides, float totalDiameter, float totalCenterX, float totalCenterY, float knobGearInnerDiameter)
 	{
 		Path gearShapedKnobPath;
@@ -68,6 +72,7 @@ public:
 
 		return gearShapedKnobPath;
 	}
+>>>>>>> 1949dc2cfae7546a750f57acbdfab891bd9036ec
 private:
     static const Rectangle<int> localBounds;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Shapes)
