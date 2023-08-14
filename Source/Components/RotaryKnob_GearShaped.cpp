@@ -11,6 +11,7 @@ RotaryKnob_GearShaped::RotaryKnob_GearShaped()
 
 	this->setSliderStyle(Slider::RotaryVerticalDrag);
 
+	this->setNumDecimalPlacesToDisplay(2);
 }
 
 RotaryKnob_GearShaped::~RotaryKnob_GearShaped()

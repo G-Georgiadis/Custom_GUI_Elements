@@ -44,17 +44,17 @@ public:
 
 		float angle = rotaryStartAngle + (sliderPosProportional * (rotaryEndAngle - rotaryStartAngle));
 
-#ifdef DEBUG
-		/** Helper circle - max within bounds */
-		g.setColour(Colours::darkred);
-		g.drawEllipse(
-			(width < height) ? x : totalCenterX - totalRadius,
-			(width < height) ? totalCenterY - totalRadius : y,
-			totalDiameter,
-			totalDiameter,
-			1
-		);
-#endif // DEBUG
+//#ifdef DEBUG
+//		/** Helper circle - max within bounds */
+//		g.setColour(Colours::darkred);
+//		g.drawEllipse(
+//			(width < height) ? x : totalCenterX - totalRadius,
+//			(width < height) ? totalCenterY - totalRadius : y,
+//			totalDiameter,
+//			totalDiameter,
+//			1
+//		);
+//#endif // DEBUG
 
 		/** Knob outer circle. The outer gear shape edges should touch this circle. */
 		float knobGearOuterDiameter = 0.9f * totalDiameter;
@@ -62,6 +62,37 @@ public:
 
 		/** Knob inner circle. The inner gear shape edges should touch this circle. */
 		float knobGearInnerDiameter = 0.75 * totalDiameter;
+
+
+		/**
+		 * Min-Max lines.
+		 */
+		Path minMaxLines;
+		minMaxLines.addArc(totalCenterX - totalRadius, totalCenterY - totalRadius,
+			totalDiameter, totalDiameter,
+			rotaryStartAngle, rotaryEndAngle, true);
+
+		PathStrokeType strokeType = PathStrokeType::PathStrokeType(1.f);
+		g.setColour(Colours::beige);
+		g.strokePath(minMaxLines, strokeType);
+
+		/** Minimum line */
+		Line<float> minLine = Line<float>(totalCenterX, totalCenterY - totalRadius, totalCenterX, totalCenterY - totalRadius + totalRadius / 6.f);
+		minLine.applyTransform(AffineTransform::rotation(rotaryStartAngle, totalCenterX, totalCenterY));
+		g.drawLine(minLine, 1.f);
+
+		/** Minimum line */
+		Line<float> maxLine = Line<float>(totalCenterX, totalCenterY - totalRadius, totalCenterX, totalCenterY - totalRadius + totalRadius / 6.f);
+		maxLine.applyTransform(AffineTransform::rotation(rotaryEndAngle, totalCenterX, totalCenterY));
+		g.drawLine(maxLine, 1.f);
+
+		/** Min label */
+		g.drawFittedText("Min", totalCenterX - totalRadius, totalCenterY + totalRadius,
+			totalRadius / 2.f, totalRadius / 6.f, Justification::centred, 1);
+		/** Max label */
+		g.drawFittedText("Max", totalCenterX + totalRadius / 2.f, totalCenterY + totalRadius,
+			totalRadius / 2.f, totalRadius / 6.f, Justification::centred, 1);
+
 
 		/****************************************************************************
 		 * Disk at the bottom of the knob.
@@ -94,9 +125,9 @@ public:
 		 * Pointer.
 		 */
 		Path knobPointerPath;
-		knobPointerPath.startNewSubPath(totalCenterX, y + (totalDiameter - knobGearOuterDiameter) / 2.f);
-		knobPointerPath.lineTo(totalCenterX + 0.15f * (knobGearOuterDiameter - knobGearInnerDiameter) / 2, y + (knobGearOuterDiameter - knobGearInnerDiameter));
-		knobPointerPath.lineTo(totalCenterX - 0.15f * (knobGearOuterDiameter - knobGearInnerDiameter) / 2, y + (knobGearOuterDiameter - knobGearInnerDiameter));
+		knobPointerPath.startNewSubPath(totalCenterX, totalCenterY - totalRadius + (totalDiameter - knobGearOuterDiameter) / 2.f);
+		knobPointerPath.lineTo(totalCenterX + 0.15f * (knobGearOuterDiameter - knobGearInnerDiameter) / 2, totalCenterY - totalRadius + (knobGearOuterDiameter - knobGearInnerDiameter));
+		knobPointerPath.lineTo(totalCenterX - 0.15f * (knobGearOuterDiameter - knobGearInnerDiameter) / 2, totalCenterY - totalRadius + (knobGearOuterDiameter - knobGearInnerDiameter));
 		knobPointerPath.closeSubPath();
 		knobPointerPath = knobPointerPath.createPathWithRoundedCorners(5.f);
 
@@ -121,7 +152,7 @@ public:
 			totalCenterX,
 			totalCenterY));
 		
-		DropShadow gearShadow = DropShadow(juce::Colours::black.withAlpha(0.3f), 20, juce::Point(-10, 10));
+		DropShadow gearShadow = DropShadow(juce::Colours::black.withAlpha(0.5f), 20, juce::Point(-20, 20));
 		gearShadow.drawForPath(g, gearShapedKnobPath);
 		
 		/** Knob base colour */
@@ -135,13 +166,14 @@ public:
 			true);
 		g.setGradientFill(gearTopGradient);
 		g.fillPath(gearShapedKnobPath);
+
 	}
 
 	/** Draws the text box of the rotary knob. */
 	Label* createSliderTextBox(Slider& slider) override
 	{
-		/** Slider text box number of decimal places to display */
-		slider.setNumDecimalPlacesToDisplay(numberOfDecimalPlaces);
+		///** Slider text box number of decimal places to display */
+		//slider.setNumDecimalPlacesToDisplay(numberOfDecimalPlaces);
 
 		juce::Label* sliderTextBoxPtr = LookAndFeel_V4::createSliderTextBox(slider);
 
