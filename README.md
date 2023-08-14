@@ -13,5 +13,8 @@
 ![](https://i.imgur.com/vv3fn5V.png)
 
 ## Waveform buttons
-### Sawtooth button
-![](https://i.imgur.com/aMvLnke.png)
+![](https://i.imgur.com/98CGhHQ.png)
+
+
+## Gear-shaped knob (rotary slider)
+![](https://imgur.com/vmPJshR.png)
