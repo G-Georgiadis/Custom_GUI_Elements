@@ -40,7 +40,6 @@ public:
 
     // Slider and knob shapes
 	static Path getGearShapedPath(int numberOfSides, float totalDiameter, float totalCenterX, float totalCenterY, float knobGearInnerDiameter);
-	
 private:
     static const Rectangle<int> localBounds;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Shapes)
