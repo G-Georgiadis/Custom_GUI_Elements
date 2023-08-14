@@ -5,6 +5,10 @@
               cppLanguageStandard="20">
   <MAINGROUP id="Grt9t8" name="Custom_GUI_Elements">
     <GROUP id="{7D00498F-0CC5-FC7F-82B6-99E6802ECCDB}" name="Source">
+      <GROUP id="{FE9261B5-9CC9-06A0-AF96-D973D3C1D726}" name="Assets">
+        <FILE id="XrfjZ9" name="RoughPlasticSmall.png" compile="0" resource="1"
+              file="Source/Assets/RoughPlasticSmall.png"/>
+      </GROUP>
       <GROUP id="{67923585-D464-8038-7D28-018FAAC3AFB7}" name="Shapes">
         <FILE id="WY6Rly" name="Shapes.cpp" compile="1" resource="0" file="Source/Shapes/Shapes.cpp"/>
         <FILE id="BErsOY" name="Shapes.h" compile="0" resource="0" file="Source/Shapes/Shapes.h"/>
